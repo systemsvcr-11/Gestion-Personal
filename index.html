@@ -1,174 +1,179 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario RRHH - Evaluación Social</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RRHH Talent Analyzer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-100 py-10 font-sans text-slate-800">
+<body class="bg-slate-100 font-sans text-slate-800 min-h-screen flex flex-col">
 
-    <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
-        <h2 class="text-2xl font-bold text-slate-800 mb-2">Registro de Evaluación del Personal</h2>
-        <p class="text-slate-500 text-sm mb-6 border-b pb-4">Por favor, llene los campos de forma detallada. Cada indicador nos ayuda a mejorar el bienestar del equipo.</p>
-
-        <form id="rrhhForm" class="space-y-6">
-            
-            <!-- BLOQUE 1: Datos Laborales -->
-            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
-                <h3 class="font-bold text-slate-700 mb-4">1. Datos Laborales</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">Nombres</label>
-                        <input type="text" name="nombres" required class="mt-1 w-full p-2 border border-slate-300 rounded outline-none focus:border-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">Apellidos</label>
-                        <input type="text" name="apellidos" required class="mt-1 w-full p-2 border border-slate-300 rounded outline-none focus:border-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">Sede</label>
-                        <select name="sede" required class="mt-1 w-full p-2 border border-slate-300 rounded outline-none focus:border-blue-500">
-                            <option value="">Seleccione...</option>
-                            <option value="La Benita">La Benita</option>
-                            <option value="La Guardiana">La Guardiana</option>
-                            <option value="Centro de Producción">Centro de Producción</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">Área y Turno</label>
-                        <div class="flex gap-2">
-                            <input type="text" name="area" placeholder="Ej: Cocina" class="mt-1 w-1/2 p-2 border border-slate-300 rounded outline-none">
-                            <select name="turno" class="mt-1 w-1/2 p-2 border border-slate-300 rounded outline-none">
-                                <option value="Mañana">Mañana</option>
-                                <option value="Tarde">Tarde</option>
-                                <option value="Noche">Noche</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BLOQUE 2: Perfil Académico -->
-            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
-                <h3 class="font-bold text-slate-700 mb-4">2. Perfil Académico</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">¿Estudia actualmente?</label>
-                        <select name="estudia" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
-                            <option value="Sí">Sí</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">Carrera / Curso</label>
-                        <input type="text" name="carrera" placeholder="Si no estudia, dejar en blanco" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">Rendimiento Académico</label>
-                        <select name="rendimiento" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
-                            <option value="">Seleccione...</option>
-                            <option value="Excelente">Excelente</option>
-                            <option value="Bueno">Bueno</option>
-                            <option value="Regular">Regular</option>
-                            <option value="Bajo">Bajo</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">¿El trabajo afecta sus estudios?</label>
-                        <select name="afecta_estudios" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
-                            <option value="No">No</option>
-                            <option value="Sí">Sí</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BLOQUE 3: Bienestar Social -->
-            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
-                <h3 class="font-bold text-slate-700 mb-4">3. Bienestar Social</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">Estado Emocional</label>
-                        <select name="emocional" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
-                            <option value="Estable">Estable</option>
-                            <option value="Decaído">Decaído / Preocupado</option>
-                            <option value="Crítico">Crítico</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">¿Con quién vive?</label>
-                        <select name="vive_con" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
-                            <option value="Familia">Familia</option>
-                            <option value="Solo">Solo</option>
-                            <option value="Amigos/Roomies">Amigos/Roomies</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">Servicios Básicos</label>
-                        <select name="servicios" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
-                            <option value="Completos">Completos</option>
-                            <option value="Faltan algunos">Faltan algunos</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Botón de Envío -->
-            <div class="flex justify-end pt-4">
-                <button type="submit" id="btnSubmit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition">
-                    Guardar Evaluación
-                </button>
-            </div>
-            
-            <!-- Mensaje de estado -->
-            <div id="mensaje" class="text-center font-bold mt-4 hidden"></div>
-        </form>
+  <!-- Header -->
+  <header class="bg-slate-900 text-white shadow">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-lg">R</div>
+        <h1 class="font-bold text-lg">RRHH Analytics Hub</h1>
+      </div>
+      <button onclick="obtenerDatos()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition flex items-center gap-1">
+        <span>↻</span> Actualizar Datos
+      </button>
     </div>
+  </header>
 
-    <script>
-        // PEGA AQUÍ TU URL DE APPS SCRIPT
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxLz3XLMKfyL6mQQzwu5zN7_RkIo3odzD12cE6PG4ku5wr739qCCMayAmHztRHavAoD/exec";
+  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
 
-        document.getElementById('rrhhForm').addEventListener('submit', async function(e) {
-            e.preventDefault(); // Evita que la página se recargue
+    <!-- Tarjetas Resumen -->
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Evaluaciones</p>
+        <p id="kpi-total" class="text-3xl font-black text-slate-800 mt-1">0</p>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-emerald-500">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Alto Potencial</p>
+        <p id="kpi-potencial" class="text-3xl font-black text-slate-800 mt-1">0</p>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-rose-500">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Casos en Observación</p>
+        <p id="kpi-riesgo" class="text-3xl font-black text-slate-800 mt-1">0</p>
+      </div>
+    </section>
 
-            const form = e.target;
-            const btn = document.getElementById('btnSubmit');
-            const mensaje = document.getElementById('mensaje');
-            
-            // UI de carga
-            btn.innerText = "Guardando...";
-            btn.disabled = true;
-            mensaje.classList.add('hidden');
+    <!-- Filtros -->
+    <section class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-4 items-center">
+      <div class="flex items-center gap-2">
+        <label for="filtro-nivel" class="text-xs font-semibold text-slate-600">Nivel:</label>
+        <select id="filtro-nivel" onchange="aplicarFiltros()" class="border border-slate-300 rounded-lg text-sm px-3 py-1.5 outline-none bg-slate-50">
+          <option value="">Todos</option>
+        </select>
+      </div>
+      <div class="flex items-center gap-2">
+        <label for="filtro-rendimiento" class="text-xs font-semibold text-slate-600">Rendimiento:</label>
+        <select id="filtro-rendimiento" onchange="aplicarFiltros()" class="border border-slate-300 rounded-lg text-sm px-3 py-1.5 outline-none bg-slate-50">
+          <option value="">Todos</option>
+        </select>
+      </div>
+    </section>
 
-            // Convertir datos del formulario a FormData
-            const formData = new FormData(form);
+    <!-- Tabla -->
+    <section class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm whitespace-nowrap">
+          <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase text-slate-500">
+            <tr>
+              <th class="px-6 py-3">Marca Temporal</th>
+              <th class="px-6 py-3">¿Qué estudia?</th>
+              <th class="px-6 py-3">Curso / Grado / Carrera</th>
+              <th class="px-6 py-3">Rendimiento</th>
+              <th class="px-6 py-3">Diagnóstico Sugerido</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-cuerpo" class="divide-y divide-slate-100 text-slate-700">
+            <tr>
+              <td colspan="5" class="px-6 py-8 text-center text-slate-400">Cargando registros...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-            try {
-                // Enviar datos usando fetch a Google Apps Script
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: formData
-                });
+  </main>
 
-                const result = await response.json();
-                
-                if (result.status === "success") {
-                    mensaje.innerText = "¡Evaluación guardada con éxito!";
-                    mensaje.className = "text-center font-bold mt-4 text-green-600 block";
-                    form.reset(); // Limpia el formulario
-                } else {
-                    throw new Error("Error del servidor");
-                }
-            } catch (error) {
-                mensaje.innerText = "Hubo un error al guardar. Intenta de nuevo.";
-                mensaje.className = "text-center font-bold mt-4 text-red-600 block";
-            } finally {
-                btn.innerText = "Guardar Evaluación";
-                btn.disabled = false;
-            }
-        });
-    </script>
+  <script>
+    // PEGA AQUÍ TU URL GENERADA EN APPS SCRIPT
+    const API_URL = "https://script.google.com/macros/s/AKfycbwRxY3Q_RJfG6hS6BRqY3hmiVqZmm23NvvM8aSiU-TftFeheZNpD6GYVAyDAh-uFktvZQ/exec";
+
+    let datosGlobales = [];
+
+    async function obtenerDatos() {
+      const tbody = document.getElementById('tabla-cuerpo');
+      tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Consultando Google Sheets...</td></tr>`;
+
+      try {
+        const respuesta = await fetch(API_URL);
+        datosGlobales = await respuesta.json();
+        
+        poblarFiltros(datosGlobales);
+        actualizarKPIs(datosGlobales);
+        renderizarTabla(datosGlobales);
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-rose-500 font-semibold">Error al cargar datos desde Apps Script. Verifica la URL.</td></tr>`;
+      }
+    }
+
+    function renderizarTabla(datos) {
+      const tbody = document.getElementById('tabla-cuerpo');
+      tbody.innerHTML = "";
+
+      if (datos.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">No hay registros para mostrar.</td></tr>`;
+        return;
+      }
+
+      datos.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition";
+        tr.innerHTML = `
+          <td class="px-6 py-3 font-mono text-xs text-slate-500">${row.fecha}</td>
+          <td class="px-6 py-3 font-semibold text-slate-800">${row.nivelEstudio}</td>
+          <td class="px-6 py-3 text-slate-600">${row.carrera}</td>
+          <td class="px-6 py-3">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${obtenerBadgeRendimiento(row.rendimiento)}">
+              ${row.rendimiento}
+            </span>
+          </td>
+          <td class="px-6 py-3">
+            <span class="px-2.5 py-1 rounded-md text-xs font-semibold border ${row.tipoAlerta}">
+              ${row.diagnostico}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function obtenerBadgeRendimiento(rendimiento) {
+      const rend = (rendimiento || "").toUpperCase();
+      if (rend === "EXCELENTE" || rend === "BUENO") return "bg-emerald-100 text-emerald-700";
+      if (rend === "REGULAR") return "bg-amber-100 text-amber-700";
+      return "bg-rose-100 text-rose-700";
+    }
+
+    function actualizarKPIs(datos) {
+      document.getElementById('kpi-total').innerText = datos.length;
+      
+      const potencial = datos.filter(d => d.diagnostico.includes("Alto Potencial")).length;
+      document.getElementById('kpi-potencial').innerText = potencial;
+
+      const riesgo = datos.filter(d => d.diagnostico.includes("Riesgo")).length;
+      document.getElementById('kpi-riesgo').innerText = riesgo;
+    }
+
+    function poblarFiltros(datos) {
+      const filtroNivel = document.getElementById('filtro-nivel');
+      const filtroRend = document.getElementById('filtro-rendimiento');
+
+      const niveles = [...new Set(datos.map(d => d.nivelEstudio).filter(Boolean))];
+      const rendimientos = [...new Set(datos.map(d => d.rendimiento).filter(Boolean))];
+
+      filtroNivel.innerHTML = '<option value="">Todos</option>' + niveles.map(n => `<option value="${n}">${n}</option>`).join('');
+      filtroRend.innerHTML = '<option value="">Todos</option>' + rendimientos.map(r => `<option value="${r}">${r}</option>`).join('');
+    }
+
+    function aplicarFiltros() {
+      const nivel = document.getElementById('filtro-nivel').value;
+      const rendimiento = document.getElementById('filtro-rendimiento').value;
+
+      const filtrados = datosGlobales.filter(item => {
+        const coincideNivel = !nivel || item.nivelEstudio === nivel;
+        const coincideRend = !rendimiento || item.rendimiento === rendimiento;
+        return coincideNivel && coincideRend;
+      });
+
+      renderizarTabla(filtrados);
+    }
+
+    window.onload = obtenerDatos;
+  </script>
 </body>
 </html>
