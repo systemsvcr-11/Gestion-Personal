@@ -3,102 +3,219 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RRHH Talent Analyzer</title>
+  <title>Sistema Inteligente de RRHH - Talent360</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-100 font-sans text-slate-800 min-h-screen flex flex-col">
+<body class="bg-slate-100 font-sans text-slate-800 h-screen flex overflow-hidden">
 
-  <!-- Header -->
-  <header class="bg-slate-900 text-white shadow">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-lg">R</div>
-        <h1 class="font-bold text-lg">RRHH Analytics Hub</h1>
-      </div>
-      <button onclick="obtenerDatos()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition flex items-center gap-1">
-        <span>↻</span> Actualizar Datos
-      </button>
+  <!-- BARRA LATERAL: MÓDULOS -->
+  <aside class="w-64 bg-slate-900 shadow-2xl flex flex-col z-20 shrink-0">
+    <div class="p-6 border-b border-slate-800">
+      <h1 class="text-white text-xl font-black flex items-center gap-2">
+        <span class="bg-blue-600 text-white p-1.5 rounded-lg text-sm font-mono">HR</span>
+        TalentSys 360
+      </h1>
+      <p class="text-slate-400 text-xs mt-1">Análisis Social & Crecimiento</p>
     </div>
-  </header>
-
-  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
-
-    <!-- Tarjetas Resumen -->
-    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Evaluaciones</p>
-        <p id="kpi-total" class="text-3xl font-black text-slate-800 mt-1">0</p>
+    
+    <nav class="flex-1 py-6 space-y-1">
+      <p class="px-6 text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Módulos Estratégicos</p>
+      <button onclick="setModulo('todos', this)" class="menu-btn w-full text-left px-6 py-3 bg-slate-800 text-white border-l-4 border-blue-500 font-semibold text-sm flex items-center gap-3 transition">
+        📊 Vista Consolidada
+      </button>
+      <button onclick="setModulo('talento', this)" class="menu-btn w-full text-left px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white border-l-4 border-transparent font-semibold text-sm flex items-center gap-3 transition">
+        🌟 Talento y Promociones
+      </button>
+      <button onclick="setModulo('conflicto', this)" class="menu-btn w-full text-left px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white border-l-4 border-transparent font-semibold text-sm flex items-center gap-3 transition">
+        ⏰ Conflicto Estudio / Turno
+      </button>
+      <button onclick="setModulo('vulnerabilidad', this)" class="menu-btn w-full text-left px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white border-l-4 border-transparent font-semibold text-sm flex items-center gap-3 transition">
+        🚨 Vulnerabilidad y Apoyo
+      </button>
+    </nav>
+    
+    <div class="p-4 border-t border-slate-800 bg-slate-950">
+      <div class="flex items-center gap-3 text-white">
+        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-xs">RH</div>
+        <div>
+          <p class="text-xs font-bold">Gestión de Talento</p>
+          <p class="text-[10px] text-slate-400">En línea</p>
+        </div>
       </div>
-      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-emerald-500">
-        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Alto Potencial</p>
-        <p id="kpi-potencial" class="text-3xl font-black text-slate-800 mt-1">0</p>
-      </div>
-      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-rose-500">
-        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Casos en Observación</p>
-        <p id="kpi-riesgo" class="text-3xl font-black text-slate-800 mt-1">0</p>
-      </div>
-    </section>
+    </div>
+  </aside>
 
-    <!-- Filtros -->
-    <section class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-4 items-center">
-      <div class="flex items-center gap-2">
-        <label for="filtro-nivel" class="text-xs font-semibold text-slate-600">Nivel:</label>
-        <select id="filtro-nivel" onchange="aplicarFiltros()" class="border border-slate-300 rounded-lg text-sm px-3 py-1.5 outline-none bg-slate-50">
-          <option value="">Todos</option>
+  <!-- ÁREA DE CONTENIDO -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+    
+    <!-- BARRA SUPERIOR DE ACCIONES Y FILTROS -->
+    <header class="bg-white border-b border-slate-200 px-8 py-4 flex flex-wrap justify-between items-center gap-4 z-10 shadow-sm">
+      <div class="flex items-center gap-3">
+        <select id="filtro-rend" onchange="aplicarFiltros()" class="bg-slate-50 border border-slate-300 text-slate-700 text-xs rounded-lg px-3 py-2 outline-none font-medium">
+          <option value="">Todos los rendimientos</option>
+          <option value="BUENO">Bueno / Excelente</option>
+          <option value="REGULAR">Regular</option>
+          <option value="BAJO">Bajo</option>
         </select>
+        <button onclick="obtenerDatos()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2 rounded-lg border border-slate-300 transition flex items-center gap-1">
+          ↻ Sincronizar Google Sheets
+        </button>
       </div>
-      <div class="flex items-center gap-2">
-        <label for="filtro-rendimiento" class="text-xs font-semibold text-slate-600">Rendimiento:</label>
-        <select id="filtro-rendimiento" onchange="aplicarFiltros()" class="border border-slate-300 rounded-lg text-sm px-3 py-1.5 outline-none bg-slate-50">
-          <option value="">Todos</option>
-        </select>
-      </div>
-    </section>
 
-    <!-- Tabla -->
-    <section class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm whitespace-nowrap">
-          <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase text-slate-500">
-            <tr>
-              <th class="px-6 py-3">Marca Temporal</th>
-              <th class="px-6 py-3">¿Qué estudia?</th>
-              <th class="px-6 py-3">Curso / Grado / Carrera</th>
-              <th class="px-6 py-3">Rendimiento</th>
-              <th class="px-6 py-3">Diagnóstico Sugerido</th>
-            </tr>
-          </thead>
-          <tbody id="tabla-cuerpo" class="divide-y divide-slate-100 text-slate-700">
-            <tr>
-              <td colspan="5" class="px-6 py-8 text-center text-slate-400">Cargando registros...</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="flex items-center gap-4 text-xs font-semibold text-slate-500">
+        <span>Evaluaciones cargadas: <strong id="kpi-total" class="text-slate-800 text-sm">0</strong></span>
       </div>
-    </section>
+    </header>
 
+    <!-- CUERPO PRINCIPAL (SCROLL) -->
+    <div class="flex-1 overflow-y-auto p-8 space-y-6">
+      
+      <!-- TARJETAS DE INDICADORES COMBINADOS -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-emerald-500">
+          <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Aptos para Ascenso / Rotación</p>
+          <p id="kpi-talento" class="text-3xl font-black text-slate-800 mt-2">0</p>
+          <p class="text-emerald-600 text-xs mt-1 font-medium">Estudios afines con rendimiento sobresaliente</p>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-amber-500">
+          <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Carga Horaria / Conflicto</p>
+          <p id="kpi-conflicto" class="text-3xl font-black text-slate-800 mt-2">0</p>
+          <p class="text-amber-600 text-xs mt-1 font-medium">El trabajo afecta directamente sus estudios</p>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-rose-500">
+          <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Casos de Vulnerabilidad</p>
+          <p id="kpi-vulnerabilidad" class="text-3xl font-black text-slate-800 mt-2">0</p>
+          <p class="text-rose-600 text-xs mt-1 font-medium">Afectación emocional o aislamiento detectado</p>
+        </div>
+      </section>
+
+      <!-- TABLA PRINCIPAL DE REGISTROS -->
+      <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+          <h2 id="titulo-modulo" class="font-bold text-slate-800 text-base">Vista Consolidada</h2>
+          <span class="text-xs text-slate-400">Datos procesados en tiempo real</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm whitespace-nowrap">
+            <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase text-slate-500">
+              <tr>
+                <th class="px-6 py-4">Registro / Fecha</th>
+                <th class="px-6 py-4">Formación Académica</th>
+                <th class="px-6 py-4">Rendimiento</th>
+                <th class="px-6 py-4">Diagnóstico Inteligente</th>
+                <th class="px-6 py-4 text-center">Ficha Completa</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-cuerpo" class="divide-y divide-slate-100 text-slate-700">
+              <tr>
+                <td colspan="5" class="px-6 py-12 text-center text-slate-400">Consultando Google Sheets...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
   </main>
 
+  <!-- MODAL / FICHA DEL TRABAJADOR -->
+  <div id="modal-ficha" class="fixed inset-0 bg-slate-900/60 z-50 hidden items-center justify-center p-4 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+        <div>
+          <h3 class="font-bold text-base" id="m-titulo">Expediente de Evaluación</h3>
+          <p class="text-xs text-slate-400" id="m-fecha">-</p>
+        </div>
+        <button onclick="cerrarModal()" class="text-slate-400 hover:text-white font-bold text-2xl">&times;</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 text-sm bg-slate-50">
+        <!-- Bloque Académico -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200">
+          <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-2 border-b pb-1">Perfil Educativo</h4>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <p><span class="font-semibold text-slate-500">Nivel:</span> <span id="m-nivel">-</span></p>
+            <p><span class="font-semibold text-slate-500">Carrera/Grado:</span> <span id="m-carrera">-</span></p>
+            <p><span class="font-semibold text-slate-500">Rendimiento:</span> <span id="m-rendimiento">-</span></p>
+            <p><span class="font-semibold text-slate-500">¿Trabajo afecta estudio?:</span> <span id="m-afecta">-</span></p>
+          </div>
+        </div>
+
+        <!-- Bloque Social / Visita -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200">
+          <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-2 border-b pb-1">Entorno Personal y Social</h4>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <p><span class="font-semibold text-slate-500">Estado Emocional:</span> <span id="m-emocional">-</span></p>
+            <p><span class="font-semibold text-slate-500">Vive con:</span> <span id="m-vive">-</span></p>
+            <p><span class="font-semibold text-slate-500">Servicios Básicos:</span> <span id="m-servicios">-</span></p>
+            <p><span class="font-semibold text-slate-500">Apoyo Familiar:</span> <span id="m-apoyo">-</span></p>
+          </div>
+          <p class="text-xs mt-2 pt-2 border-t text-slate-600"><span class="font-semibold text-slate-500">Dificultad detectada:</span> <span id="m-dificultad">-</span></p>
+        </div>
+
+        <!-- Dictamen del Sistema -->
+        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
+          <h4 class="font-bold text-blue-900 text-xs uppercase tracking-wider mb-1">Dictamen del Sistema</h4>
+          <p id="m-diagnostico" class="text-xs font-bold text-blue-800 mb-2">-</p>
+          <p class="text-xs text-slate-600"><strong class="text-slate-800">Plan de acción sugerido:</strong> <span id="m-accion">-</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÓGICA DE DATOS Y RENDERIZADO -->
   <script>
-    // PEGA AQUÍ TU URL GENERADA EN APPS SCRIPT
     const API_URL = "https://script.google.com/macros/s/AKfycbwRxY3Q_RJfG6hS6BRqY3hmiVqZmm23NvvM8aSiU-TftFeheZNpD6GYVAyDAh-uFktvZQ/exec";
 
     let datosGlobales = [];
+    let moduloActual = "todos";
 
     async function obtenerDatos() {
       const tbody = document.getElementById('tabla-cuerpo');
-      tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Consultando Google Sheets...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-slate-400 font-medium">Consultando Google Sheets...</td></tr>`;
 
       try {
         const respuesta = await fetch(API_URL);
         datosGlobales = await respuesta.json();
-        
-        poblarFiltros(datosGlobales);
         actualizarKPIs(datosGlobales);
-        renderizarTabla(datosGlobales);
+        aplicarFiltros();
       } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-rose-500 font-semibold">Error al cargar datos desde Apps Script. Verifica la URL.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-rose-500 font-bold">Error de conexión con Google Apps Script. Verifica la URL y permisos.</td></tr>`;
       }
+    }
+
+    function setModulo(modulo, btn) {
+      moduloActual = modulo;
+      document.querySelectorAll('.menu-btn').forEach(b => {
+        b.className = "menu-btn w-full text-left px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white border-l-4 border-transparent font-semibold text-sm flex items-center gap-3 transition";
+      });
+      btn.className = "menu-btn w-full text-left px-6 py-3 bg-slate-800 text-white border-l-4 border-blue-500 font-semibold text-sm flex items-center gap-3 transition";
+      
+      const titulos = {
+        todos: "Vista Consolidada",
+        talento: "Módulo: Candidatos con Potencial de Promoción",
+        conflicto: "Módulo: Casos con Conflicto Estudio / Turno",
+        vulnerabilidad: "Módulo: Alertas de Vulnerabilidad y Soporte"
+      };
+      document.getElementById('titulo-modulo').innerText = titulos[modulo] || "Evaluaciones";
+      aplicarFiltros();
+    }
+
+    function aplicarFiltros() {
+      const rend = document.getElementById('filtro-rend').value;
+
+      let filtrados = datosGlobales;
+
+      if (moduloActual !== "todos") {
+        filtrados = filtrados.filter(d => d.modulo === moduloActual);
+      }
+
+      if (rend) {
+        filtrados = filtrados.filter(d => (d.rendimiento || "").toUpperCase().includes(rend));
+      }
+
+      renderizarTabla(filtrados);
     }
 
     function renderizarTabla(datos) {
@@ -106,71 +223,79 @@
       tbody.innerHTML = "";
 
       if (datos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">No hay registros para mostrar.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-slate-400">No hay registros clasificados bajo este criterio.</td></tr>`;
         return;
       }
 
-      datos.forEach(row => {
+      datos.forEach((row, idx) => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50 transition";
         tr.innerHTML = `
-          <td class="px-6 py-3 font-mono text-xs text-slate-500">${row.fecha}</td>
-          <td class="px-6 py-3 font-semibold text-slate-800">${row.nivelEstudio}</td>
-          <td class="px-6 py-3 text-slate-600">${row.carrera}</td>
-          <td class="px-6 py-3">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${obtenerBadgeRendimiento(row.rendimiento)}">
+          <td class="px-6 py-4 text-xs font-mono text-slate-500">${row.fecha}</td>
+          <td class="px-6 py-4">
+            <p class="font-bold text-slate-800">${row.carrera}</p>
+            <p class="text-xs text-slate-400">${row.queEstudia}</p>
+          </td>
+          <td class="px-6 py-4">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold ${getBadgeRendimiento(row.rendimiento)}">
               ${row.rendimiento}
             </span>
           </td>
-          <td class="px-6 py-3">
-            <span class="px-2.5 py-1 rounded-md text-xs font-semibold border ${row.tipoAlerta}">
+          <td class="px-6 py-4">
+            <span class="px-3 py-1 rounded-lg text-xs font-bold border ${row.badgeColor}">
               ${row.diagnostico}
             </span>
+          </td>
+          <td class="px-6 py-4 text-center">
+            <button onclick="verFicha(${row.id})" class="text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg font-bold text-xs transition">
+              Ver Ficha
+            </button>
           </td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    function obtenerBadgeRendimiento(rendimiento) {
-      const rend = (rendimiento || "").toUpperCase();
-      if (rend === "EXCELENTE" || rend === "BUENO") return "bg-emerald-100 text-emerald-700";
-      if (rend === "REGULAR") return "bg-amber-100 text-amber-700";
+    function getBadgeRendimiento(rend) {
+      const r = (rend || "").toUpperCase();
+      if (r === "BUENO" || r === "EXCELENTE") return "bg-emerald-100 text-emerald-700";
+      if (r === "REGULAR") return "bg-amber-100 text-amber-700";
       return "bg-rose-100 text-rose-700";
     }
 
     function actualizarKPIs(datos) {
       document.getElementById('kpi-total').innerText = datos.length;
-      
-      const potencial = datos.filter(d => d.diagnostico.includes("Alto Potencial")).length;
-      document.getElementById('kpi-potencial').innerText = potencial;
-
-      const riesgo = datos.filter(d => d.diagnostico.includes("Riesgo")).length;
-      document.getElementById('kpi-riesgo').innerText = riesgo;
+      document.getElementById('kpi-talento').innerText = datos.filter(d => d.modulo === 'talento').length;
+      document.getElementById('kpi-conflicto').innerText = datos.filter(d => d.modulo === 'conflicto').length;
+      document.getElementById('kpi-vulnerabilidad').innerText = datos.filter(d => d.modulo === 'vulnerabilidad').length;
     }
 
-    function poblarFiltros(datos) {
-      const filtroNivel = document.getElementById('filtro-nivel');
-      const filtroRend = document.getElementById('filtro-rendimiento');
+    function verFicha(id) {
+      const reg = datosGlobales.find(d => d.id === id);
+      if (!reg) return;
 
-      const niveles = [...new Set(datos.map(d => d.nivelEstudio).filter(Boolean))];
-      const rendimientos = [...new Set(datos.map(d => d.rendimiento).filter(Boolean))];
+      document.getElementById('m-fecha').innerText = "Registrado el: " + reg.fecha;
+      document.getElementById('m-nivel').innerText = reg.queEstudia;
+      document.getElementById('m-carrera').innerText = reg.carrera;
+      document.getElementById('m-rendimiento').innerText = reg.rendimiento;
+      document.getElementById('m-afecta').innerText = reg.afectaEstudio;
+      document.getElementById('m-emocional').innerText = reg.emocional;
+      document.getElementById('m-vive').innerText = reg.viveCon;
+      document.getElementById('m-servicios').innerText = reg.servicios;
+      document.getElementById('m-apoyo').innerText = reg.apoyoFamiliar;
+      document.getElementById('m-dificultad').innerText = reg.dificultadVisita;
+      document.getElementById('m-diagnostico').innerText = reg.diagnostico;
+      document.getElementById('m-accion').innerText = reg.accion;
 
-      filtroNivel.innerHTML = '<option value="">Todos</option>' + niveles.map(n => `<option value="${n}">${n}</option>`).join('');
-      filtroRend.innerHTML = '<option value="">Todos</option>' + rendimientos.map(r => `<option value="${r}">${r}</option>`).join('');
+      const modal = document.getElementById('modal-ficha');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     }
 
-    function aplicarFiltros() {
-      const nivel = document.getElementById('filtro-nivel').value;
-      const rendimiento = document.getElementById('filtro-rendimiento').value;
-
-      const filtrados = datosGlobales.filter(item => {
-        const coincideNivel = !nivel || item.nivelEstudio === nivel;
-        const coincideRend = !rendimiento || item.rendimiento === rendimiento;
-        return coincideNivel && coincideRend;
-      });
-
-      renderizarTabla(filtrados);
+    function cerrarModal() {
+      const modal = document.getElementById('modal-ficha');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
     }
 
     window.onload = obtenerDatos;
