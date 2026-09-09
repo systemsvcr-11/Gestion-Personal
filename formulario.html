@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario RRHH - Evaluación Social</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 py-10 font-sans text-slate-800">
+
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
+        <h2 class="text-2xl font-bold text-slate-800 mb-2">Registro de Evaluación del Personal</h2>
+        <p class="text-slate-500 text-sm mb-6 border-b pb-4">Por favor, llene los campos de forma detallada. Cada indicador nos ayuda a mejorar el bienestar del equipo.</p>
+
+        <form id="rrhhForm" class="space-y-6">
+            
+            <!-- BLOQUE 1: Datos Laborales -->
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <h3 class="font-bold text-slate-700 mb-4">1. Datos Laborales</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Nombres</label>
+                        <input type="text" name="nombres" required class="mt-1 w-full p-2 border border-slate-300 rounded outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Apellidos</label>
+                        <input type="text" name="apellidos" required class="mt-1 w-full p-2 border border-slate-300 rounded outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Sede</label>
+                        <select name="sede" required class="mt-1 w-full p-2 border border-slate-300 rounded outline-none focus:border-blue-500">
+                            <option value="">Seleccione...</option>
+                            <option value="La Benita">La Benita</option>
+                            <option value="La Guardiana">La Guardiana</option>
+                            <option value="Centro de Producción">Centro de Producción</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Área y Turno</label>
+                        <div class="flex gap-2">
+                            <input type="text" name="area" placeholder="Ej: Cocina" class="mt-1 w-1/2 p-2 border border-slate-300 rounded outline-none">
+                            <select name="turno" class="mt-1 w-1/2 p-2 border border-slate-300 rounded outline-none">
+                                <option value="Mañana">Mañana</option>
+                                <option value="Tarde">Tarde</option>
+                                <option value="Noche">Noche</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLOQUE 2: Perfil Académico -->
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <h3 class="font-bold text-slate-700 mb-4">2. Perfil Académico</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">¿Estudia actualmente?</label>
+                        <select name="estudia" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
+                            <option value="Sí">Sí</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Carrera / Curso</label>
+                        <input type="text" name="carrera" placeholder="Si no estudia, dejar en blanco" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Rendimiento Académico</label>
+                        <select name="rendimiento" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
+                            <option value="">Seleccione...</option>
+                            <option value="Excelente">Excelente</option>
+                            <option value="Bueno">Bueno</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Bajo">Bajo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">¿El trabajo afecta sus estudios?</label>
+                        <select name="afecta_estudios" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
+                            <option value="No">No</option>
+                            <option value="Sí">Sí</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLOQUE 3: Bienestar Social -->
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <h3 class="font-bold text-slate-700 mb-4">3. Bienestar Social</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Estado Emocional</label>
+                        <select name="emocional" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
+                            <option value="Estable">Estable</option>
+                            <option value="Decaído">Decaído / Preocupado</option>
+                            <option value="Crítico">Crítico</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">¿Con quién vive?</label>
+                        <select name="vive_con" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
+                            <option value="Familia">Familia</option>
+                            <option value="Solo">Solo</option>
+                            <option value="Amigos/Roomies">Amigos/Roomies</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Servicios Básicos</label>
+                        <select name="servicios" class="mt-1 w-full p-2 border border-slate-300 rounded outline-none">
+                            <option value="Completos">Completos</option>
+                            <option value="Faltan algunos">Faltan algunos</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón de Envío -->
+            <div class="flex justify-end pt-4">
+                <button type="submit" id="btnSubmit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition">
+                    Guardar Evaluación
+                </button>
+            </div>
+            
+            <!-- Mensaje de estado -->
+            <div id="mensaje" class="text-center font-bold mt-4 hidden"></div>
+        </form>
+    </div>
+
+    <script>
+        // PEGA AQUÍ TU URL DE APPS SCRIPT
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxLz3XLMKfyL6mQQzwu5zN7_RkIo3odzD12cE6PG4ku5wr739qCCMayAmHztRHavAoD/exec";
+
+        document.getElementById('rrhhForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Evita que la página se recargue
+
+            const form = e.target;
+            const btn = document.getElementById('btnSubmit');
+            const mensaje = document.getElementById('mensaje');
+            
+            // UI de carga
+            btn.innerText = "Guardando...";
+            btn.disabled = true;
+            mensaje.classList.add('hidden');
+
+            // Convertir datos del formulario a FormData
+            const formData = new FormData(form);
+
+            try {
+                // Enviar datos usando fetch a Google Apps Script
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (result.status === "success") {
+                    mensaje.innerText = "¡Evaluación guardada con éxito!";
+                    mensaje.className = "text-center font-bold mt-4 text-green-600 block";
+                    form.reset(); // Limpia el formulario
+                } else {
+                    throw new Error("Error del servidor");
+                }
+            } catch (error) {
+                mensaje.innerText = "Hubo un error al guardar. Intenta de nuevo.";
+                mensaje.className = "text-center font-bold mt-4 text-red-600 block";
+            } finally {
+                btn.innerText = "Guardar Evaluación";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
