@@ -3,290 +3,320 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RRHH - Sistema Integral de Talento y Bienestar</title>
+  <title>Portal RRHH - Gestión de Colaboradores</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @media print {
+      body * { visibility: hidden; }
+      #area-impresion, #area-impresion * { visibility: visible; }
+      #area-impresion {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        background: white;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
 </head>
-<body class="bg-slate-100 font-sans text-slate-800 h-screen flex overflow-hidden">
+<body class="bg-slate-100 font-sans text-slate-800 min-h-screen">
 
-  <!-- BARRA LATERAL (MÓDULOS) -->
-  <aside class="w-64 bg-slate-900 shadow-2xl flex flex-col z-20 shrink-0">
-    <div class="p-6 border-b border-slate-800">
-      <h1 class="text-white text-lg font-black flex items-center gap-2">
-        <span class="bg-blue-600 text-white p-1 rounded text-xs font-mono">HR</span>
-        SIGEP
-      </h1>
-      <p class="text-slate-400 text-xs mt-1">Gestión Personal</p>
-    </div>
-    
-    <nav class="flex-1 py-6 space-y-1">
-      <p class="px-6 text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Módulos</p>
-      <button onclick="setModulo('todos', this)" class="menu-btn w-full text-left px-6 py-3 bg-slate-800 text-white border-l-4 border-blue-500 font-semibold text-sm flex items-center gap-3 transition">
-        📊 Vista Consolidada
-      </button>
-      <button onclick="setModulo('talento', this)" class="menu-btn w-full text-left px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white border-l-4 border-transparent font-semibold text-sm flex items-center gap-3 transition">
-        🌟 Talentos Ocultos
-      </button>
-      <button onclick="setModulo('conflicto', this)" class="menu-btn w-full text-left px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white border-l-4 border-transparent font-semibold text-sm flex items-center gap-3 transition">
-        ⏰ Conflicto Horario / Turnos
-      </button>
-      <button onclick="setModulo('vulnerabilidad', this)" class="menu-btn w-full text-left px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white border-l-4 border-transparent font-semibold text-sm flex items-center gap-3 transition">
-        🚨 Vulnerabilidad y Apoyo
-      </button>
-    </nav>
-    
-    <div class="p-4 border-t border-slate-800 bg-slate-950">
-      <div class="flex items-center gap-3 text-white">
-        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-xs">RH</div>
+  <!-- VISTA 1: LOGIN -->
+  <div id="vista-login" class="flex min-h-screen items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-xl border border-slate-200 w-full max-w-md p-8">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600 text-white font-black text-2xl mb-3 shadow-lg shadow-blue-200">
+          HR
+        </div>
+        <h1 class="text-2xl font-black text-slate-800 tracking-tight">Acceso al Sistema</h1>
+        <p class="text-slate-400 text-xs mt-1">Plataforma de Bienestar y Gestión Personal</p>
+      </div>
+
+      <form id="form-login" onsubmit="ejecutarLogin(event)" class="space-y-4">
         <div>
-          <p class="text-xs font-bold">Gestión Personal</p>
-          <p class="text-[10px] text-slate-400">Conectado</p>
+          <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Usuario</label>
+          <input type="text" id="login-user" required placeholder="Ej: admin, local1" 
+                 class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-slate-50">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Contraseña</label>
+          <input type="password" id="login-pass" required placeholder="••••••••" 
+                 class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-slate-50">
+        </div>
+        <div id="login-error" class="hidden text-rose-600 text-xs font-bold bg-rose-50 p-3 rounded-xl border border-rose-200 text-center"></div>
+        <button type="submit" id="btn-login" 
+                class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-blue-500/30 transition duration-200 flex items-center justify-center gap-2">
+          Ingresar al Panel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- VISTA 2: PANEL DE CONTROL -->
+  <div id="vista-panel" class="hidden min-h-screen flex flex-col">
+    <!-- BARRA SUPERIOR -->
+    <header class="bg-white border-b border-slate-200 px-8 py-4 flex flex-wrap justify-between items-center gap-4 sticky top-0 z-20">
+      <div class="flex items-center gap-3">
+        <span class="bg-blue-600 text-white px-2.5 py-1 rounded-lg text-xs font-black">HR</span>
+        <div>
+          <h2 class="font-bold text-slate-800 text-base leading-tight">Panel de Control</h2>
+          <p id="user-badge" class="text-[11px] text-slate-500 font-medium"></p>
         </div>
       </div>
-    </div>
-  </aside>
 
-  <!-- CONTENIDO CENTRAL -->
-  <main class="flex-1 flex flex-col overflow-hidden">
-    
-    <!-- BARRA SUPERIOR DE ACCIONES -->
-    <header class="bg-white border-b border-slate-200 px-8 py-4 flex flex-wrap justify-between items-center gap-4 z-10 shadow-sm">
       <div class="flex items-center gap-3">
-        <select id="filtro-area" onchange="aplicarFiltros()" class="bg-slate-50 border border-slate-300 text-slate-700 text-xs rounded-lg px-3 py-2 outline-none font-medium">
-          <option value="">Todas las Áreas</option>
-        </select>
-        <select id="filtro-prioridad" onchange="aplicarFiltros()" class="bg-slate-50 border border-slate-300 text-slate-700 text-xs rounded-lg px-3 py-2 outline-none font-medium">
-          <option value="">Todas las Prioridades</option>
-          <option value="BAJO">Prioridad Baja</option>
-          <option value="MEDIO">Prioridad Media</option>
-          <option value="ALTA">Prioridad Alta</option>
-        </select>
-        <button onclick="obtenerDatos()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2 rounded-lg border border-slate-300 transition flex items-center gap-1">
-          ↻ Sincronizar
+        <button onclick="cerrarSesion()" class="text-xs font-bold text-slate-500 hover:text-rose-600 px-3 py-2 rounded-lg border border-slate-200 hover:border-rose-200 hover:bg-rose-50 transition">
+          Cerrar Sesión
         </button>
-      </div>
-
-      <div class="text-xs font-semibold text-slate-500">
-        Total Evaluados: <strong id="kpi-total" class="text-slate-800 text-sm">0</strong>
       </div>
     </header>
 
-    <!-- ÁREA CON SCROLL -->
-    <div class="flex-1 overflow-y-auto p-8 space-y-6">
-      
-      <!-- TARJETAS DE INDICADORES (KPIS) -->
-      <section class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-emerald-500">
-          <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Aptos para Ascenso</p>
-          <p id="kpi-talento" class="text-3xl font-black text-slate-800 mt-2">0</p>
-          <p class="text-emerald-600 text-xs mt-1 font-medium">Estudios alineados con buen rendimiento</p>
+    <main class="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto space-y-6">
+      <!-- BARRA DE FILTROS -->
+      <section class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Buscar por Nombre</label>
+          <input type="text" id="filtro-nombre" oninput="aplicarFiltros()" placeholder="Escribe un nombre..." 
+                 class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-amber-500">
-          <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Conflicto Turno/Estudio</p>
-          <p id="kpi-conflicto" class="text-3xl font-black text-slate-800 mt-2">0</p>
-          <p class="text-amber-600 text-xs mt-1 font-medium">Reportan afectación en horarios académicos</p>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Buscar por DNI</label>
+          <input type="text" id="filtro-dni" oninput="aplicarFiltros()" placeholder="Número de DNI..." 
+                 class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-rose-500">
-          <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Prioridad Social / Alta</p>
-          <p id="kpi-vulnerabilidad" class="text-3xl font-black text-slate-800 mt-2">0</p>
-          <p class="text-rose-600 text-xs mt-1 font-medium">Requieren intervención o apoyo específico</p>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Área</label>
+          <select id="filtro-area" onchange="aplicarFiltros()" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
+            <option value="">Todas las Áreas</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Turno</label>
+          <select id="filtro-turno" onchange="aplicarFiltros()" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
+            <option value="">Todos los Turnos</option>
+          </select>
         </div>
       </section>
 
-      <!-- TABLA PRINCIPAL -->
+      <!-- TABLA DE COLABORADORES -->
       <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
-          <h2 id="titulo-modulo" class="font-bold text-slate-800 text-base">Vista Consolidada</h2>
-          <span class="text-xs text-slate-400">Datos obtenidos de Form_Responses</span>
+        <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Registros Encontrados: <strong id="contador-total" class="text-slate-800">0</strong></span>
         </div>
 
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm whitespace-nowrap">
-            <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase text-slate-500">
+            <thead class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase text-slate-500">
               <tr>
-                <th class="px-6 py-4">Colaborador</th>
-                <th class="px-6 py-4">Área / Turno</th>
-                <th class="px-6 py-4">Estudios</th>
-                <th class="px-6 py-4">Diagnóstico del Sistema</th>
-                <th class="px-6 py-4 text-center">Ficha 360°</th>
+                <th class="px-6 py-3.5">DNI</th>
+                <th class="px-6 py-3.5">Nombres</th>
+                <th class="px-6 py-3.5">Apellidos</th>
+                <th class="px-6 py-3.5">Empresa</th>
+                <th class="px-6 py-3.5">Área</th>
+                <th class="px-6 py-3.5">Turno</th>
+                <th class="px-6 py-3.5 text-center">Acciones</th>
               </tr>
             </thead>
             <tbody id="tabla-cuerpo" class="divide-y divide-slate-100 text-slate-700">
-              <tr>
-                <td colspan="5" class="px-6 py-12 text-center text-slate-400">Cargando registros...</td>
-              </tr>
+              <!-- Se puebla dinámicamente -->
             </tbody>
           </table>
         </div>
       </section>
+    </main>
+  </div>
 
-    </div>
-  </main>
-
-  <!-- MODAL / FICHA COMPLETA DEL TRABAJADOR -->
-  <div id="modal-ficha" class="fixed inset-0 bg-slate-900/60 z-50 hidden items-center justify-center p-4 backdrop-blur-xs">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh]">
-      
+  <!-- MODAL FICHA COMPLETA (OPTIMIZADO PARA IMPRESIÓN) -->
+  <div id="modal-ficha" class="fixed inset-0 bg-slate-900/60 z-50 hidden items-center justify-center p-4 backdrop-blur-xs no-print">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[92vh]">
       <!-- Header Modal -->
       <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center shrink-0">
         <div>
-          <h3 class="font-bold text-lg" id="m-nombre">Expediente</h3>
-          <p class="text-xs text-slate-400" id="m-subtitulo">-</p>
+          <h3 class="font-bold text-base">Ficha Integral del Colaborador</h3>
+          <p class="text-xs text-slate-400">Datos consolidados de la visita y evaluación socioeconómica</p>
         </div>
-        <button onclick="cerrarModal()" class="text-slate-400 hover:text-white font-bold text-2xl transition">&times;</button>
+        <div class="flex items-center gap-2">
+          <button onclick="imprimirFicha()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+            🖨️ Imprimir / Guardar PDF
+          </button>
+          <button onclick="cerrarModal()" class="text-slate-400 hover:text-white font-bold text-xl px-2 transition">&times;</button>
+        </div>
       </div>
 
-      <!-- Contenido Modal -->
-      <div class="p-6 overflow-y-auto space-y-4 text-sm bg-slate-50">
-        
-        <!-- Bloque Laboral y Académico -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="bg-white p-4 rounded-xl border border-slate-200">
-            <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-2 border-b pb-1">Perfil Académico</h4>
-            <div class="space-y-1 text-xs">
-              <p><span class="font-semibold text-slate-500">Institución:</span> <span id="m-estudia">-</span></p>
-              <p><span class="font-semibold text-slate-500">Carrera / Grado:</span> <span id="m-carrera">-</span></p>
-              <p><span class="font-semibold text-slate-500">Rendimiento:</span> <span id="m-rendimiento">-</span></p>
-              <p><span class="font-semibold text-slate-500">¿Trabajo afecta estudio?:</span> <span id="m-afecta">-</span></p>
-            </div>
-          </div>
-
-          <div class="bg-white p-4 rounded-xl border border-slate-200">
-            <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-2 border-b pb-1">Desempeño Operativo</h4>
-            <div class="space-y-1 text-xs">
-              <p><span class="font-semibold text-slate-500">Área:</span> <span id="m-area">-</span></p>
-              <p><span class="font-semibold text-slate-500">Turno:</span> <span id="m-turno">-</span></p>
-              <p><span class="font-semibold text-slate-500">Desempeño en trabajo:</span> <span id="m-desempeno">-</span></p>
-              <p><span class="font-semibold text-slate-500">Asistencia / Puntualidad:</span> <span id="m-asistencia">-</span></p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bloque Visita Social y Entorno -->
+      <!-- Contenedor Imprimible -->
+      <div id="area-impresion" class="p-6 overflow-y-auto space-y-4 text-xs bg-slate-50">
+        <!-- Bloque Principal -->
         <div class="bg-white p-4 rounded-xl border border-slate-200">
-          <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-2 border-b pb-1">Condición Sociofamiliar (Visita)</h4>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-            <p><span class="font-semibold text-slate-500">Vive con:</span> <span id="m-vive">-</span></p>
-            <p><span class="font-semibold text-slate-500">Vivienda:</span> <span id="m-vivienda">-</span></p>
-            <p><span class="font-semibold text-slate-500">Servicios básicos:</span> <span id="m-servicios">-</span></p>
-            <p><span class="font-semibold text-slate-500">Apoyo familiar:</span> <span id="m-apoyo">-</span></p>
-            <p><span class="font-semibold text-slate-500">Estado emocional:</span> <span id="m-emocional">-</span></p>
-            <p><span class="font-semibold text-slate-500">Prioridad asignada:</span> <span id="m-prioridad">-</span></p>
+          <div class="flex justify-between items-start border-b border-slate-100 pb-3 mb-3">
+            <div>
+              <h2 id="m-nombre" class="text-lg font-black text-slate-800">-</h2>
+              <p class="text-slate-500 font-medium">DNI: <span id="m-dni" class="font-bold text-slate-700">-</span></p>
+            </div>
+            <div class="text-right">
+              <span id="m-empresa" class="inline-block px-2.5 py-1 bg-blue-50 text-blue-700 font-bold rounded-lg border border-blue-200 text-[11px]">-</span>
+              <p id="m-fecha" class="text-[10px] text-slate-400 mt-1">Registrado: -</p>
+            </div>
           </div>
-          <div class="mt-3 pt-2 border-t border-slate-100 text-xs space-y-1">
-            <p><span class="font-semibold text-slate-500">Principal dificultad:</span> <span id="m-dificultad">-</span></p>
-            <p><span class="font-semibold text-slate-500">Tipo de apoyo requerido:</span> <span id="m-tipoapoyo">-</span></p>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-slate-600">
+            <div><span class="font-bold text-slate-400 block text-[10px] uppercase">Área</span> <p id="m-area" class="font-bold text-slate-800 text-xs">-</p></div>
+            <div><span class="font-bold text-slate-400 block text-[10px] uppercase">Turno</span> <p id="m-turno" class="font-bold text-slate-800 text-xs">-</p></div>
+            <div><span class="font-bold text-slate-400 block text-[10px] uppercase">Transporte</span> <p id="m-transporte" class="font-semibold text-slate-700 text-xs">-</p></div>
+            <div><span class="font-bold text-slate-400 block text-[10px] uppercase">Estudia en</span> <p id="m-estudia" class="font-semibold text-slate-700 text-xs">-</p></div>
           </div>
         </div>
 
-        <!-- Conclusión del Motor Inteligente -->
-        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
-          <h4 class="font-bold text-blue-900 text-xs uppercase tracking-wider mb-1">Recomendación Sugerida</h4>
-          <p id="m-diagnostico" class="text-xs font-bold text-blue-800 mb-1">-</p>
-          <p class="text-xs text-slate-600"><strong class="text-slate-800">Plan de acción:</strong> <span id="m-accion">-</span></p>
+        <!-- Condiciones Habitacionales y Familiares -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+          <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] border-b pb-1">Entorno Familiar y Vivienda</h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div><strong class="text-slate-500">Dirección:</strong> <p id="m-direccion" class="font-medium text-slate-700 mt-0.5">-</p></div>
+            <div><strong class="text-slate-500">Vive con:</strong> <p id="m-vive" class="font-medium text-slate-700 mt-0.5">-</p></div>
+            <div><strong class="text-slate-500">Condición Vivienda:</strong> <p id="m-vivienda" class="font-medium text-slate-700 mt-0.5">-</p></div>
+          </div>
+          <div class="pt-2 border-t border-slate-100">
+            <strong class="text-slate-500">Servicios Básicos:</strong>
+            <p id="m-servicios" class="font-medium text-slate-700 mt-0.5">-</p>
+          </div>
         </div>
 
+        <!-- Apoyo y Situación Personal -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+          <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] border-b pb-1">Diagnóstico Social y Laboral</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <strong class="text-slate-500">¿Cuenta con Apoyo Familiar?:</strong> <span id="m-apoyo" class="font-bold text-slate-700 ml-1">-</span>
+              <p id="m-detalle-apoyo" class="text-slate-600 italic mt-0.5">-</p>
+            </div>
+            <div>
+              <strong class="text-slate-500">¿Situación que afecta estudio/trabajo?:</strong> <span id="m-afecta" class="font-bold text-slate-700 ml-1">-</span>
+              <p id="m-detalle-afecta" class="text-slate-600 italic mt-0.5">-</p>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-100">
+            <p><strong class="text-slate-500">Apoyo solicitado por el colaborador:</strong> <span id="m-tipoapoyo" class="font-semibold text-blue-700 ml-1">-</span></p>
+            <p class="mt-1"><strong class="text-slate-500">Observaciones de la visita:</strong> <span id="m-visita" class="text-slate-600 ml-1">-</span></p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- SCRIPT DE CONSUMO Y RENDERIZADO -->
   <script>
+    // URL de tu Apps Script publicada como Web App
     const API_URL = "https://script.google.com/macros/s/AKfycbwRxY3Q_RJfG6hS6BRqY3hmiVqZmm23NvvM8aSiU-TftFeheZNpD6GYVAyDAh-uFktvZQ/exec";
 
-    let datosGlobales = [];
-    let moduloActual = "todos";
+    let colaboradores = [];
+    let usuarioActual = null;
 
-    async function obtenerDatos() {
-      const tbody = document.getElementById('tabla-cuerpo');
-      tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-slate-400 font-medium">Sincronizando con Google Sheets...</td></tr>`;
+    async function ejecutarLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById('login-user').value.trim();
+      const pass = document.getElementById('login-pass').value.trim();
+      const errorDiv = document.getElementById('login-error');
+      const btn = document.getElementById('btn-login');
+
+      errorDiv.classList.add('hidden');
+      btn.innerText = "Verificando...";
+      btn.disabled = true;
 
       try {
-        const res = await fetch(API_URL);
-        datosGlobales = await res.json();
-        poblarFiltros(datosGlobales);
-        actualizarKPIs(datosGlobales);
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ accion: "login", usuario: user, password: pass })
+        });
+        const resJson = await res.json();
+
+        if (resJson.error) {
+          throw new Error(resJson.error);
+        }
+
+        usuarioActual = resJson.user;
+        colaboradores = resJson.data;
+
+        document.getElementById('vista-login').classList.add('hidden');
+        document.getElementById('vista-panel').classList.remove('hidden');
+        document.getElementById('user-badge').innerText = `${usuarioActual.nombre} (${usuarioActual.rol === 'general' ? 'Vista Global' : 'Local: ' + usuarioActual.local})`;
+
+        inicializarSelects();
         aplicarFiltros();
       } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-rose-500 font-bold">Error de conexión con Apps Script. Verifica la publicación de la API.</td></tr>`;
+        errorDiv.innerText = err.message || "Error al conectar con el servidor";
+        errorDiv.classList.remove('hidden');
+      } finally {
+        btn.innerText = "Ingresar al Panel";
+        btn.disabled = false;
       }
     }
 
-    function setModulo(modulo, btn) {
-      moduloActual = modulo;
-      document.querySelectorAll('.menu-btn').forEach(b => {
-        b.className = "menu-btn w-full text-left px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white border-l-4 border-transparent font-semibold text-sm flex items-center gap-3 transition";
-      });
-      btn.className = "menu-btn w-full text-left px-6 py-3 bg-slate-800 text-white border-l-4 border-blue-500 font-semibold text-sm flex items-center gap-3 transition";
-
-      const titulos = {
-        todos: "Vista Consolidada",
-        talento: "Módulo: Potencial de Promoción y Carrera",
-        conflicto: "Módulo: Conflicto Estudio / Turno",
-        vulnerabilidad: "Módulo: Prioridad Social y Asistencia"
-      };
-      document.getElementById('titulo-modulo').innerText = titulos[modulo] || "Evaluaciones";
-      aplicarFiltros();
+    function cerrarSesion() {
+      usuarioActual = null;
+      colaboradores = [];
+      document.getElementById('vista-panel').classList.add('hidden');
+      document.getElementById('vista-login').classList.remove('hidden');
+      document.getElementById('login-pass').value = "";
     }
 
-    function poblarFiltros(datos) {
-      const filtroArea = document.getElementById('filtro-area');
-      const areas = [...new Set(datos.map(d => d.area).filter(Boolean))];
-      filtroArea.innerHTML = '<option value="">Todas las Áreas</option>' + areas.map(a => `<option value="${a}">${a}</option>`).join('');
+    function inicializarSelects() {
+      const areas = [...new Set(colaboradores.map(c => c.area).filter(Boolean))];
+      const turnos = [...new Set(colaboradores.map(c => c.turno).filter(Boolean))];
+
+      const selectArea = document.getElementById('filtro-area');
+      selectArea.innerHTML = '<option value="">Todas las Áreas</option>' + areas.map(a => `<option value="${a}">${a}</option>`).join('');
+
+      const selectTurno = document.getElementById('filtro-turno');
+      selectTurno.innerHTML = '<option value="">Todos los Turnos</option>' + turnos.map(t => `<option value="${t}">${t}</option>`).join('');
     }
 
     function aplicarFiltros() {
-      const area = document.getElementById('filtro-area').value;
-      const prioridad = document.getElementById('filtro-prioridad').value;
+      const qNombre = document.getElementById('filtro-nombre').value.toLowerCase().trim();
+      const qDni = document.getElementById('filtro-dni').value.toLowerCase().trim();
+      const selArea = document.getElementById('filtro-area').value;
+      const selTurno = document.getElementById('filtro-turno').value;
 
-      let filtrados = datosGlobales;
-
-      if (moduloActual !== "todos") {
-        filtrados = filtrados.filter(d => d.modulo === moduloActual);
-      }
-
-      if (area) {
-        filtrados = filtrados.filter(d => d.area === area);
-      }
-
-      if (prioridad) {
-        filtrados = filtrados.filter(d => (d.prioridad || "").toUpperCase().includes(prioridad));
-      }
+      const filtrados = colaboradores.filter(c => {
+        const coincideNombre = (c.nombreCompleto || "").toLowerCase().includes(qNombre);
+        const coincideDni = (c.dni || "").toLowerCase().includes(qDni);
+        const coincideArea = selArea ? c.area === selArea : true;
+        const coincideTurno = selTurno ? c.turno === selTurno : true;
+        return coincideNombre && coincideDni && coincideArea && coincideTurno;
+      });
 
       renderizarTabla(filtrados);
+    }
+
+    function escapeHTML(str) {
+      return String(str || '').replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
     }
 
     function renderizarTabla(datos) {
       const tbody = document.getElementById('tabla-cuerpo');
       tbody.innerHTML = "";
+      document.getElementById('contador-total').innerText = datos.length;
 
       if (datos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-slate-400">No hay registros bajo estos filtros.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="px-6 py-12 text-center text-slate-400">No se encontraron colaboradores bajo los criterios de búsqueda.</td></tr>`;
         return;
       }
 
       datos.forEach(row => {
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50 transition";
+        tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
         tr.innerHTML = `
-          <td class="px-6 py-4">
-            <p class="font-bold text-slate-800">${row.nombreCompleto}</p>
-            <p class="text-[11px] text-slate-400 font-mono">${row.marcaTemporal}</p>
-          </td>
-          <td class="px-6 py-4">
-            <p class="font-semibold text-slate-700">${row.area || "Sin área"}</p>
-            <p class="text-xs text-slate-400">${row.turno || "-"}</p>
-          </td>
-          <td class="px-6 py-4">
-            <p class="font-semibold text-slate-800 text-xs">${row.carrera || "-"}</p>
-            <p class="text-xs text-slate-500">${row.estudia || ""}</p>
-          </td>
-          <td class="px-6 py-4">
-            <span class="px-3 py-1 rounded-lg text-xs font-bold border ${row.badgeColor}">
-              ${row.diagnostico}
-            </span>
-          </td>
-          <td class="px-6 py-4 text-center">
-            <button onclick="verFicha(${row.id})" class="text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg font-bold text-xs transition">
+          <td class="px-6 py-3.5 font-mono text-xs font-semibold text-slate-700">${escapeHTML(row.dni)}</td>
+          <td class="px-6 py-3.5 font-bold text-slate-800">${escapeHTML(row.nombres)}</td>
+          <td class="px-6 py-3.5 font-bold text-slate-800">${escapeHTML(row.apellidos)}</td>
+          <td class="px-6 py-3.5 text-xs text-slate-600 font-medium">${escapeHTML(row.empresa)}</td>
+          <td class="px-6 py-3.5 text-xs text-slate-600">${escapeHTML(row.area)}</td>
+          <td class="px-6 py-3.5 text-xs text-slate-600">${escapeHTML(row.turno)}</td>
+          <td class="px-6 py-3.5 text-center">
+            <button onclick="verFicha('${row.id}')" class="bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold px-3 py-1.5 rounded-lg text-xs transition">
               Ver Ficha
             </button>
           </td>
@@ -295,41 +325,30 @@
       });
     }
 
-    function actualizarKPIs(datos) {
-      document.getElementById('kpi-total').innerText = datos.length;
-      document.getElementById('kpi-talento').innerText = datos.filter(d => d.modulo === 'talento').length;
-      document.getElementById('kpi-conflicto').innerText = datos.filter(d => d.modulo === 'conflicto').length;
-      document.getElementById('kpi-vulnerabilidad').innerText = datos.filter(d => d.modulo === 'vulnerabilidad').length;
-    }
-
     function verFicha(id) {
-      const reg = datosGlobales.find(d => d.id === id);
+      const reg = colaboradores.find(c => String(c.id) === String(id));
       if (!reg) return;
 
       document.getElementById('m-nombre').innerText = reg.nombreCompleto;
-      document.getElementById('m-subtitulo').innerText = `${reg.area || "Sin Área"} | Registrado: ${reg.marcaTemporal}`;
-      
-      document.getElementById('m-estudia').innerText = reg.estudia;
-      document.getElementById('m-carrera').innerText = reg.carrera;
-      document.getElementById('m-rendimiento').innerText = reg.rendimiento;
-      document.getElementById('m-afecta').innerText = reg.afectaEstudios;
-
+      document.getElementById('m-dni').innerText = reg.dni;
+      document.getElementById('m-empresa').innerText = reg.empresa;
+      document.getElementById('m-fecha').innerText = `Registrado: ${reg.marcaTemporal}`;
       document.getElementById('m-area').innerText = reg.area;
       document.getElementById('m-turno').innerText = reg.turno;
-      document.getElementById('m-desempeno').innerText = reg.desempeno;
-      document.getElementById('m-asistencia').innerText = reg.asistencia;
+      document.getElementById('m-transporte').innerText = reg.transporte;
+      document.getElementById('m-estudia').innerText = reg.estudia;
 
+      document.getElementById('m-direccion').innerText = reg.direccion;
       document.getElementById('m-vive').innerText = reg.viveCon;
       document.getElementById('m-vivienda').innerText = reg.vivienda;
       document.getElementById('m-servicios').innerText = reg.servicios;
-      document.getElementById('m-apoyo').innerText = reg.apoyoFamiliar;
-      document.getElementById('m-emocional').innerText = reg.emocional;
-      document.getElementById('m-prioridad').innerText = reg.prioridad;
-      document.getElementById('m-dificultad').innerText = reg.principalDificultad;
-      document.getElementById('m-tipoapoyo').innerText = reg.tipoApoyo;
 
-      document.getElementById('m-diagnostico').innerText = reg.diagnostico;
-      document.getElementById('m-accion').innerText = reg.accion;
+      document.getElementById('m-apoyo').innerText = reg.apoyoFamiliar;
+      document.getElementById('m-detalle-apoyo').innerText = reg.detalleApoyo !== "-" ? `"${reg.detalleApoyo}"` : "Sin detalles";
+      document.getElementById('m-afecta').innerText = reg.afectaEstudios;
+      document.getElementById('m-detalle-afecta').innerText = reg.detalleAfecta !== "-" ? `"${reg.detalleAfecta}"` : "Sin detalles";
+      document.getElementById('m-tipoapoyo').innerText = reg.tipoApoyo;
+      document.getElementById('m-visita').innerText = reg.infoVisita;
 
       const modal = document.getElementById('modal-ficha');
       modal.classList.remove('hidden');
@@ -342,7 +361,9 @@
       modal.classList.add('hidden');
     }
 
-    window.onload = obtenerDatos;
+    function imprimirFicha() {
+      window.print();
+    }
   </script>
 </body>
 </html>
