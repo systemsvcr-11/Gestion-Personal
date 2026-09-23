@@ -70,20 +70,32 @@
   </div>
 
   <!-- ==================== VISTA 2: APLICACIÓN PRINCIPAL ==================== -->
-  <div id="vista-panel" class="hidden min-h-screen flex flex-row overflow-hidden">
+  <div id="vista-panel" class="hidden min-h-screen flex flex-row overflow-hidden relative">
     
-    <!-- BARRA LATERAL (SIDEBAR) -->
-    <aside class="w-68 bg-pastel-sidebar text-white shrink-0 flex flex-col justify-between shadow-2xl z-30">
+    <!-- TELÓN DE FONDO (BACKDROP) PARA MÓVILES -->
+    <div id="sidebar-backdrop" onclick="toggleSidebar(false)" 
+         class="fixed inset-0 bg-slate-900/60 z-30 hidden transition-opacity duration-300 md:hidden backdrop-blur-2xs"></div>
+
+    <!-- BARRA LATERAL DESPLEGABLE (SIDEBAR) -->
+    <aside id="sidebar-panel" 
+           class="fixed md:static inset-y-0 left-0 w-68 bg-pastel-sidebar text-white shrink-0 flex flex-col justify-between shadow-2xl z-40 transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0">
       <div>
         <!-- Contenedor del Logo de Sede / Corporativo -->
-        <div class="p-6 border-b border-slate-700/60 flex items-center gap-3.5">
-          <div id="sidebar-logo-container" class="w-14 h-14 rounded-2xl bg-white border border-slate-200/80 flex items-center justify-center p-2 shadow-md shrink-0">
-            <img id="sidebar-logo" src="./img/Default.png" class="max-h-full max-w-full object-contain" alt="Logo Sede">
+        <div class="p-6 border-b border-slate-700/60 flex items-center justify-between">
+          <div class="flex items-center gap-3.5">
+            <div id="sidebar-logo-container" class="w-14 h-14 rounded-2xl bg-white border border-slate-200/80 flex items-center justify-center p-2 shadow-md shrink-0">
+              <img id="sidebar-logo" src="./img/Default.png" class="max-h-full max-w-full object-contain" alt="Logo Sede">
+            </div>
+            <div class="overflow-hidden">
+              <h1 id="sidebar-app-title" class="text-sm font-black text-white tracking-wide truncate">GRUPO GASTRONÓMICO</h1>
+              <p id="sidebar-sede-label" class="text-[11px] text-indigo-300 font-semibold truncate mt-0.5">Sede General</p>
+            </div>
           </div>
-          <div class="overflow-hidden">
-            <h1 id="sidebar-app-title" class="text-sm font-black text-white tracking-wide truncate">GRUPO GASTRONÓMICO</h1>
-            <p id="sidebar-sede-label" class="text-[11px] text-indigo-300 font-semibold truncate mt-0.5">Sede General</p>
-          </div>
+
+          <!-- Botón de Cerrar Sidebar (visible solo en móviles) -->
+          <button onclick="toggleSidebar(false)" class="md:hidden text-slate-400 hover:text-white p-1 text-xl">
+            ✕
+          </button>
         </div>
 
         <!-- Módulos de Gestión -->
@@ -143,27 +155,38 @@
     </aside>
 
     <!-- ÁREA DE CONTENIDO CENTRAL -->
-    <div class="flex-1 flex flex-col h-screen overflow-y-auto">
+    <div class="flex-1 flex flex-col h-screen overflow-y-auto w-full">
       
-      <!-- HEADER SUPERIOR -->
-      <header class="bg-white/80 backdrop-blur-sm border-b border-crema-200 px-8 py-4 flex justify-between items-center sticky top-0 z-20">
-        <div>
-          <h2 class="text-lg font-bold text-slate-800 tracking-tight">Directorio de Colaboradores</h2>
-          <p class="text-xs text-slate-400">Datos consolidados de visitas sociofamiliares</p>
+      <!-- HEADER SUPERIOR CON BOTÓN DE MENÚ HAMBURGUESA -->
+      <header class="bg-white/80 backdrop-blur-sm border-b border-crema-200 px-4 md:px-8 py-4 flex justify-between items-center sticky top-0 z-20">
+        <div class="flex items-center gap-3">
+          <!-- Botón Hamburguesa -->
+          <button onclick="toggleSidebar()" 
+                  class="p-2 rounded-xl bg-crema-50 hover:bg-crema-200 border border-crema-200 text-slate-700 transition" 
+                  title="Alternar Menú Lateral">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+
+          <div>
+            <h2 class="text-base md:text-lg font-bold text-slate-800 tracking-tight leading-tight">Directorio de Colaboradores</h2>
+            <p class="text-[11px] md:text-xs text-slate-400 hidden sm:block">Datos consolidados de visitas sociofamiliares</p>
+          </div>
         </div>
 
         <div class="flex items-center gap-3">
-          <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-full border border-emerald-200/70">
-            ● Sistema Conectado
+          <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-[11px] md:text-xs font-bold rounded-full border border-emerald-200/70">
+            ● En línea
           </span>
         </div>
       </header>
 
       <!-- CUERPO PRINCIPAL -->
-      <main class="p-8 space-y-6 max-w-7xl w-full mx-auto">
+      <main class="p-4 md:p-8 space-y-6 max-w-7xl w-full mx-auto">
 
         <!-- FILTROS MODERNOS -->
-        <section class="bg-white p-5 rounded-2xl border border-crema-200 shadow-2xs grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3.5">
+        <section class="bg-white p-4 md:p-5 rounded-2xl border border-crema-200 shadow-2xs grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3.5">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Nombre o Apellido</label>
             <input type="text" id="filtro-nombre" oninput="aplicarFiltros()" placeholder="Buscar colaborador..." 
@@ -231,41 +254,41 @@
   </div>
 
   <!-- ==================== MODAL DE EXPEDIENTE ==================== -->
-  <div id="modal-ficha" class="fixed inset-0 bg-slate-900/60 z-50 hidden items-center justify-center p-4 backdrop-blur-xs">
+  <div id="modal-ficha" class="fixed inset-0 bg-slate-900/60 z-50 hidden items-center justify-center p-3 sm:p-4 backdrop-blur-xs">
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[92vh] border border-crema-200">
       
       <!-- Cabecera Modal -->
-      <div class="bg-pastel-sidebar text-white px-7 py-4 flex justify-between items-center shrink-0">
+      <div class="bg-pastel-sidebar text-white px-5 sm:px-7 py-4 flex justify-between items-center shrink-0">
         <div>
           <h3 class="font-bold text-sm tracking-wide">Expediente Socioeconómico y Laboral</h3>
           <p class="text-[11px] text-slate-400">Información consolidada para uso exclusivo de RRHH</p>
         </div>
-        <div class="flex items-center gap-3">
-          <button onclick="imprimirFichaDirecta()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-2 shadow-xs">
-            🖨️ Descargar Ficha PDF / Imprimir
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button onclick="imprimirFichaDirecta()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] sm:text-xs font-bold px-3 sm:px-4 py-2 rounded-xl transition flex items-center gap-1.5 sm:gap-2 shadow-xs">
+            🖨️ <span class="hidden sm:inline">Descargar Ficha PDF /</span> Imprimir
           </button>
           <button onclick="cerrarModal()" class="text-slate-400 hover:text-white font-bold text-2xl transition leading-none">&times;</button>
         </div>
       </div>
 
       <!-- Contenedor Ficha (Renderizado en pantalla y Molde de Impresión Corporativo) -->
-      <div id="ficha-printable-content" class="p-8 overflow-y-auto space-y-6 text-xs bg-white">
+      <div id="ficha-printable-content" class="p-6 sm:p-8 overflow-y-auto space-y-6 text-xs bg-white">
         
         <!-- MEMBRETE FORMAL CORPORATIVO -->
         <div class="border-b-2 border-slate-800 pb-5 flex justify-between items-start">
-          <div class="flex items-center gap-5">
+          <div class="flex items-center gap-4 sm:gap-5">
             <!-- Contenedor de Logo Adaptativo (se ajusta dinámicamente con JS según sea claro u oscuro) -->
-            <div id="modal-logo-container" class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center p-2.5 border border-slate-300 shadow-sm shrink-0">
+            <div id="modal-logo-container" class="w-14 sm:w-16 h-14 sm:h-16 rounded-2xl bg-white flex items-center justify-center p-2 sm:p-2.5 border border-slate-300 shadow-sm shrink-0">
               <img id="m-logo" src="./img/Default.png" class="max-h-full max-w-full object-contain" alt="Logo Empresa">
             </div>
             <div>
               <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Ficha Individual de Colaborador</p>
-              <h2 id="m-nombre" class="text-xl font-extrabold text-slate-900 mt-0.5">-</h2>
+              <h2 id="m-nombre" class="text-base sm:text-xl font-extrabold text-slate-900 mt-0.5">-</h2>
               <p class="text-slate-500 font-medium text-xs mt-0.5">D.N.I.: <span id="m-dni" class="font-bold text-slate-800 font-mono">-</span></p>
             </div>
           </div>
           <div class="text-right">
-            <span id="m-empresa" class="inline-block px-3.5 py-1.5 bg-slate-100 text-slate-800 font-extrabold rounded-lg border border-slate-300 text-xs uppercase tracking-wider">-</span>
+            <span id="m-empresa" class="inline-block px-2.5 sm:px-3.5 py-1 sm:py-1.5 bg-slate-100 text-slate-800 font-extrabold rounded-lg border border-slate-300 text-[11px] sm:text-xs uppercase tracking-wider">-</span>
             <p id="m-fecha" class="text-[10px] text-slate-400 mt-1 font-mono">Registro: -</p>
           </div>
         </div>
@@ -392,6 +415,23 @@
     let usuarioActual = null;
     let colaboradorSeleccionado = null;
 
+    // Control del Drawer / Sidebar
+    function toggleSidebar(forzarEstado = null) {
+      const sidebar = document.getElementById('sidebar-panel');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      const isClosed = sidebar.classList.contains('-translate-x-full');
+
+      const abrir = forzarEstado !== null ? forzarEstado : isClosed;
+
+      if (abrir) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
     async function ejecutarLogin(e) {
       e.preventDefault();
       const user = document.getElementById('login-user').value.trim();
@@ -453,6 +493,7 @@
     function cerrarSesion() {
       usuarioActual = null;
       colaboradores = [];
+      toggleSidebar(false);
       document.getElementById('vista-panel').classList.add('hidden');
       document.getElementById('vista-login').classList.remove('hidden');
       document.getElementById('login-pass').value = "";
@@ -536,7 +577,7 @@
       // Aplicar logo y fondo adaptativo según el local del colaborador
       const confColab = obtenerConfigLogo(reg.empresa);
       const contLogoModal = document.getElementById('modal-logo-container');
-      contLogoModal.className = `w-16 h-16 rounded-2xl ${confColab.bg} border ${confColab.border} flex items-center justify-center p-2.5 shadow-sm shrink-0`;
+      contLogoModal.className = `w-14 sm:w-16 h-14 sm:h-16 rounded-2xl ${confColab.bg} border ${confColab.border} flex items-center justify-center p-2 sm:p-2.5 shadow-sm shrink-0`;
       document.getElementById('m-logo').src = confColab.url;
 
       document.getElementById('m-nombre').innerText = reg.nombreCompleto;
