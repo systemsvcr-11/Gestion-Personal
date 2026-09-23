@@ -77,10 +77,8 @@
       <div>
         <!-- Contenedor del Logo de Sede / Corporativo -->
         <div class="p-6 border-b border-slate-700/60 flex items-center gap-3.5">
-          <!-- Fondo dark suave para asegurar visibilidad de logos blancos (ej. Matrona) -->
-          <!-- POR ESTO: -->
           <div id="sidebar-logo-container" class="w-14 h-14 rounded-2xl bg-white border border-slate-200/80 flex items-center justify-center p-2 shadow-md shrink-0">
-            <img id="sidebar-logo" src="./img/Default.png" class="max-h-full max-w-full object-contain filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" alt="Logo Sede">
+            <img id="sidebar-logo" src="./img/Default.png" class="max-h-full max-w-full object-contain" alt="Logo Sede">
           </div>
           <div class="overflow-hidden">
             <h1 id="sidebar-app-title" class="text-sm font-black text-white tracking-wide truncate">GRUPO GASTRONÓMICO</h1>
@@ -256,10 +254,9 @@
         <!-- MEMBRETE FORMAL CORPORATIVO -->
         <div class="border-b-2 border-slate-800 pb-5 flex justify-between items-start">
           <div class="flex items-center gap-5">
-            <!-- Contenedor de Logo del Local: fondo neutro oscuro elegante para logos blancos o de color -->
-            <!-- POR ESTO: -->
+            <!-- Contenedor de Logo Adaptativo (se ajusta dinámicamente con JS según sea claro u oscuro) -->
             <div id="modal-logo-container" class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center p-2.5 border border-slate-300 shadow-sm shrink-0">
-              <img id="m-logo" src="./img/Default.png" class="max-h-full max-w-full object-contain filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.18)]" alt="Logo Empresa">
+              <img id="m-logo" src="./img/Default.png" class="max-h-full max-w-full object-contain" alt="Logo Empresa">
             </div>
             <div>
               <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Ficha Individual de Colaborador</p>
@@ -355,6 +352,19 @@
             </div>
           </div>
         </div>
+
+        <!-- SECCIÓN DE FIRMAS PARA EL PDF -->
+        <div class="pt-8 grid grid-cols-2 gap-12 mt-8 text-center border-t border-slate-200">
+          <div>
+            <div class="border-b border-slate-400 w-48 mx-auto mb-1.5"></div>
+            <p class="text-[10px] font-bold uppercase text-slate-500">Firma del Colaborador</p>
+          </div>
+          <div>
+            <div class="border-b border-slate-400 w-48 mx-auto mb-1.5"></div>
+            <p class="text-[10px] font-bold uppercase text-slate-500">Responsable de Gestión de Talento</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -364,13 +374,13 @@
     // URL de tu Apps Script publicada como Web App
     const API_URL = "https://script.google.com/macros/s/AKfycbwRxY3Q_RJfG6hS6BRqY3hmiVqZmm23NvvM8aSiU-TftFeheZNpD6GYVAyDAh-uFktvZQ/exec";
 
-    // Diccionario de imágenes locales en tu repositorio de GitHub Pages
+    // Configuración de logos locales con fondos de contraste adaptativos
     const LOGOS_LOCALES = {
-      "BENITA": { url: "./img/La Benita.png", bg: "bg-white", border: "border-slate-200" },
-      "GUARDIANA": { url: "./img/La Guardiana.png", bg: "bg-white", border: "border-slate-200" },
+      "BENITA": { url: "./img/La Benita.png", bg: "bg-white", border: "border-slate-300" },
+      "GUARDIANA": { url: "./img/La Guardiana.png", bg: "bg-white", border: "border-slate-300" },
       "PLANTA": { url: "./img/Planta.png", bg: "bg-slate-900", border: "border-slate-700" },
       "MATRONA": { url: "./img/Planta.png", bg: "bg-slate-900", border: "border-slate-700" },
-      "TODOS": { url: "./img/Default.png", bg: "bg-white", border: "border-slate-200" }
+      "TODOS": { url: "./img/Default.png", bg: "bg-white", border: "border-slate-300" }
     };
 
     function obtenerConfigLogo(identificador) {
@@ -437,16 +447,14 @@
     function configurarInterfazUsuario() {
       const confUser = obtenerConfigLogo(usuarioActual.local);
       const contLogoSidebar = document.getElementById('sidebar-logo-container');
-      contLogoSidebar.className = `w-14 h-14 rounded-2xl ${confUser.bg} border ${confUser.border} flex items-center justify-center p-2 shadow-sm shrink-0`;
+      contLogoSidebar.className = `w-14 h-14 rounded-2xl ${confUser.bg} border ${confUser.border} flex items-center justify-center p-2 shadow-md shrink-0`;
       document.getElementById('sidebar-logo').src = confUser.url;
+
       document.getElementById('user-nombre').innerText = usuarioActual.nombre;
       document.getElementById('user-rol-tag').innerText = usuarioActual.rol === 'general' ? 'Acceso Corporativo' : `Admin: ${usuarioActual.local}`;
       document.getElementById('sidebar-sede-label').innerText = usuarioActual.rol === 'general' ? 'Vista Consolidada' : usuarioActual.local;
 
-      // Logo del Sidebar según usuario que inició sesión
-      document.getElementById('sidebar-logo').src = obtenerLogo(usuarioActual.local);
-
-      // Mostrar u ocultar el filtro de sedes
+      // Mostrar u ocultar el filtro de sedes según rol
       const contLocal = document.getElementById('contenedor-filtro-local');
       if (usuarioActual.rol !== 'general') {
         contLocal.classList.add('hidden');
@@ -533,15 +541,17 @@
     }
 
     function verFicha(id) {
-      const confColab = obtenerConfigLogo(reg.empresa);
-      const contLogoModal = document.getElementById('modal-logo-container');
-      contLogoModal.className = `w-16 h-16 rounded-2xl ${confColab.bg} border ${confColab.border} flex items-center justify-center p-2.5 shadow-sm shrink-0`;
-      document.getElementById('m-logo').src = confColab.url;
-      
       colaboradorSeleccionado = colaboradores.find(c => String(c.id) === String(id));
       if (!colaboradorSeleccionado) return;
 
       const reg = colaboradorSeleccionado;
+
+      // Aplicar logo y fondo adaptativo según el local del colaborador
+      const confColab = obtenerConfigLogo(reg.empresa);
+      const contLogoModal = document.getElementById('modal-logo-container');
+      contLogoModal.className = `w-16 h-16 rounded-2xl ${confColab.bg} border ${confColab.border} flex items-center justify-center p-2.5 shadow-sm shrink-0`;
+      document.getElementById('m-logo').src = confColab.url;
+
       document.getElementById('m-nombre').innerText = reg.nombreCompleto;
       document.getElementById('m-dni').innerText = reg.dni;
       document.getElementById('m-empresa').innerText = reg.empresa;
@@ -563,9 +573,6 @@
       document.getElementById('m-tipoapoyo').innerText = reg.tipoApoyo;
       document.getElementById('m-visita').innerText = reg.infoVisita;
 
-      // EL LOGO PERTENECE AL LOCAL DEL TRABAJADOR
-      document.getElementById('m-logo').src = obtenerLogo(reg.empresa);
-
       const modal = document.getElementById('modal-ficha');
       modal.classList.remove('hidden');
       modal.classList.add('flex');
@@ -581,9 +588,8 @@
     function imprimirFichaDirecta() {
       if (!colaboradorSeleccionado) return;
 
-      // Resuelve la URL absoluta del logo del colaborador para GitHub Pages
-      const rutaLogoRelativa = obtenerLogo(colaboradorSeleccionado.empresa);
-      const rutaLogoAbsoluta = new URL(rutaLogoRelativa, window.location.href).href;
+      const confColab = obtenerConfigLogo(colaboradorSeleccionado.empresa);
+      const rutaLogoAbsoluta = new URL(confColab.url, window.location.href).href;
 
       const imgFicha = document.getElementById('m-logo');
       const srcOriginal = imgFicha.src;
