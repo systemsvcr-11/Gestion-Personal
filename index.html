@@ -366,27 +366,25 @@
 
     // Diccionario de imágenes locales en tu repositorio de GitHub Pages
     const LOGOS_LOCALES = {
-      "BENITA": "./img/La Benita.png",
-      "GUARDIANA": "./img/La Guardiana.png",
-      "PLANTA": "./img/Planta.png",
-      "MATRONA": "./img/Planta.png",
-      "TODOS": "./img/Default.png"
+      "BENITA": { url: "./img/La Benita.png", bg: "bg-white", border: "border-slate-200" },
+      "GUARDIANA": { url: "./img/La Guardiana.png", bg: "bg-white", border: "border-slate-200" },
+      "PLANTA": { url: "./img/Planta.png", bg: "bg-slate-900", border: "border-slate-700" },
+      "MATRONA": { url: "./img/Planta.png", bg: "bg-slate-900", border: "border-slate-700" },
+      "TODOS": { url: "./img/Default.png", bg: "bg-white", border: "border-slate-200" }
     };
 
-    function obtenerLogo(identificador) {
+    function obtenerConfigLogo(identificador) {
       if (!identificador) return LOGOS_LOCALES["TODOS"];
       
-      // Normalizamos: mayúsculas, sin tildes ni espacios extra
       const texto = String(identificador)
         .toUpperCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .trim();
 
-      // Buscamos si alguna palabra clave está contenida en el texto
-      for (const [clave, url] of Object.entries(LOGOS_LOCALES)) {
+      for (const [clave, conf] of Object.entries(LOGOS_LOCALES)) {
         if (clave !== "TODOS" && texto.includes(clave)) {
-          return url;
+          return conf;
         }
       }
 
@@ -437,6 +435,10 @@
     }
 
     function configurarInterfazUsuario() {
+      const confUser = obtenerConfigLogo(usuarioActual.local);
+      const contLogoSidebar = document.getElementById('sidebar-logo-container');
+      contLogoSidebar.className = `w-14 h-14 rounded-2xl ${confUser.bg} border ${confUser.border} flex items-center justify-center p-2 shadow-sm shrink-0`;
+      document.getElementById('sidebar-logo').src = confUser.url;
       document.getElementById('user-nombre').innerText = usuarioActual.nombre;
       document.getElementById('user-rol-tag').innerText = usuarioActual.rol === 'general' ? 'Acceso Corporativo' : `Admin: ${usuarioActual.local}`;
       document.getElementById('sidebar-sede-label').innerText = usuarioActual.rol === 'general' ? 'Vista Consolidada' : usuarioActual.local;
@@ -531,6 +533,11 @@
     }
 
     function verFicha(id) {
+      const confColab = obtenerConfigLogo(reg.empresa);
+      const contLogoModal = document.getElementById('modal-logo-container');
+      contLogoModal.className = `w-16 h-16 rounded-2xl ${confColab.bg} border ${confColab.border} flex items-center justify-center p-2.5 shadow-sm shrink-0`;
+      document.getElementById('m-logo').src = confColab.url;
+      
       colaboradorSeleccionado = colaboradores.find(c => String(c.id) === String(id));
       if (!colaboradorSeleccionado) return;
 
