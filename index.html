@@ -364,18 +364,30 @@
 
     // Diccionario de imágenes locales en tu repositorio de GitHub Pages
     const LOGOS_LOCALES = {
-      "La Benita": "./img/La Benita.png",
-      "La Guardiana": "./img/La Guardiana.png",
-      "Planta": "./img/Planta.png",
+      "BENITA": "./img/La Benita.png",
+      "GUARDIANA": "./img/La Guardiana.png",
+      "PLANTA": "./img/Planta.png",
+      "MATRONA": "./img/Planta.png",
       "TODOS": "./img/Default.png"
     };
 
     function obtenerLogo(identificador) {
       if (!identificador) return LOGOS_LOCALES["TODOS"];
-      const clave = identificador.toUpperCase();
-      for (const [k, url] of Object.entries(LOGOS_LOCALES)) {
-        if (clave.includes(k)) return url;
+      
+      // Normalizamos: mayúsculas, sin tildes ni espacios extra
+      const texto = String(identificador)
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+
+      // Buscamos si alguna palabra clave está contenida en el texto
+      for (const [clave, url] of Object.entries(LOGOS_LOCALES)) {
+        if (clave !== "TODOS" && texto.includes(clave)) {
+          return url;
+        }
       }
+
       return LOGOS_LOCALES["TODOS"];
     }
 
