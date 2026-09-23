@@ -18,17 +18,13 @@
           },
           colors: {
             pastel: {
-              canvas: '#F7F6F2',     // Fondo general cálido
-              card: '#FFFFFF',
+              canvas: '#F7F6F2',     // Fondo cálido no deslumbrante
               sidebar: '#2D323F',    // Carbón suave pastel
               accent: '#818CF8',     // Índigo pastel
-              mint: '#D1FAE5',       // Verde menta pastel
+              mint: '#D1FAE5',       // Menta pastel
               mintDark: '#065F46',
-              peach: '#FFE4E6',      // Rosa melocotón pastel
-              peachDark: '#9F1239',
               lavender: '#EDE9FE',   // Lavanda pastel
               lavenderDark: '#5B21B6',
-              butter: '#FEF3C7',     // Amarillo pastel
               border: '#E8E5DD'
             }
           }
@@ -41,9 +37,9 @@
 
   <!-- ==================== VISTA 1: LOGIN ==================== -->
   <div id="vista-login" class="flex min-h-screen items-center justify-center p-6 bg-gradient-to-br from-indigo-50/50 via-pastel-canvas to-emerald-50/40">
-    <div class="bg-white/90 backdrop-blur-md rounded-3xl shadow-xl border border-pastel-border w-full max-w-md p-8 sm:p-10 transition-all">
+    <div class="bg-white/95 backdrop-blur-md rounded-3xl shadow-xl border border-pastel-border w-full max-w-md p-8 sm:p-10 transition-all">
       <div class="text-center mb-8">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-pastel-lavender text-pastel-lavenderDark font-extrabold text-2xl mb-4 shadow-sm border border-indigo-100">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-pastel-lavender text-pastel-lavenderDark font-extrabold text-2xl mb-4 shadow-xs border border-indigo-100">
           RH
         </div>
         <h1 class="text-2xl font-black text-slate-800 tracking-tight">Acceso al Sistema</h1>
@@ -78,11 +74,11 @@
       <div>
         <!-- Logo de la Sede / Identidad -->
         <div class="p-6 border-b border-slate-700/60 flex items-center gap-3">
-          <div id="sidebar-logo-container" class="w-11 h-11 rounded-xl bg-slate-800 border border-slate-600/50 flex items-center justify-center overflow-hidden p-1">
-            <img id="sidebar-logo" src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png" class="max-h-full max-w-full object-contain" alt="Logo">
+          <div id="sidebar-logo-container" class="w-11 h-11 rounded-xl bg-slate-800 border border-slate-600/50 flex items-center justify-center overflow-hidden p-1.5">
+            <img id="sidebar-logo" src="./img/default.png" class="max-h-full max-w-full object-contain" alt="Logo Sede">
           </div>
           <div class="overflow-hidden">
-            <h1 id="sidebar-app-title" class="text-sm font-black text-white tracking-wide truncate">BENITA GROUP</h1>
+            <h1 id="sidebar-app-title" class="text-sm font-black text-white tracking-wide truncate">RESTAURANTES</h1>
             <p id="sidebar-sede-label" class="text-[11px] text-indigo-300 font-medium truncate">Sede General</p>
           </div>
         </div>
@@ -98,7 +94,7 @@
           </a>
 
           <!-- Módulos Inhabilitados (Próximamente) -->
-          <div class="opacity-45 cursor-not-allowed select-none space-y-1 pt-1">
+          <div class="opacity-40 cursor-not-allowed select-none space-y-1 pt-1">
             <div class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-400">
               <div class="flex items-center gap-3">
                 <span class="text-sm">🌟</span>
@@ -126,12 +122,12 @@
         </nav>
       </div>
 
-      <!-- Pie de Barra Lateral / Usuario conectado -->
+      <!-- Pie de Barra Lateral -->
       <div class="p-4 border-t border-slate-700/60 bg-slate-900/40">
         <div class="flex items-center justify-between">
           <div class="truncate mr-2">
             <p id="user-nombre" class="text-xs font-bold text-white truncate">-</p>
-            <p id="user-rol-tag" class="text-[10px] text-slate-400 font-medium truncate">Sesión iniciada</p>
+            <p id="user-rol-tag" class="text-[10px] text-slate-400 font-medium truncate">Sesión activa</p>
           </div>
           <button onclick="cerrarSesion()" title="Cerrar Sesión" class="p-2 text-slate-400 hover:text-rose-300 hover:bg-slate-800 rounded-lg transition">
             🚪
@@ -140,14 +136,14 @@
       </div>
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- CONTENIDO DERECHO -->
     <div class="flex-1 flex flex-col h-screen overflow-y-auto">
       
       <!-- HEADER SUPERIOR -->
       <header class="bg-white/80 backdrop-blur-sm border-b border-pastel-border px-8 py-4 flex justify-between items-center sticky top-0 z-20">
         <div>
           <h2 class="text-lg font-bold text-slate-800">Directorio de Colaboradores</h2>
-          <p class="text-xs text-slate-400">Registros y evaluaciones recopiladas de las visitas de bienestar</p>
+          <p class="text-xs text-slate-400">Visitas de bienestar y encuestas socioeconómicas</p>
         </div>
 
         <div class="flex items-center gap-3">
@@ -157,26 +153,24 @@
         </div>
       </header>
 
-      <!-- CONTENEDOR DE TABLA Y FILTROS -->
+      <!-- ÁREA DE TRABAJO -->
       <main class="p-8 space-y-6 max-w-7xl w-full mx-auto">
 
-        <!-- TARJETA DE FILTROS PASTEL -->
+        <!-- FILTROS MULTICRITERIO -->
         <section class="bg-white p-5 rounded-2xl border border-pastel-border shadow-xs grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
-          <!-- Filtro Nombre -->
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nombre o Apellido</label>
             <input type="text" id="filtro-nombre" oninput="aplicarFiltros()" placeholder="Buscar colaborador..." 
                    class="w-full bg-pastel-canvas/60 border border-pastel-border text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-200">
           </div>
 
-          <!-- Filtro DNI -->
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">D.N.I.</label>
             <input type="text" id="filtro-dni" oninput="aplicarFiltros()" placeholder="Documento..." 
                    class="w-full bg-pastel-canvas/60 border border-pastel-border text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-200 font-mono">
           </div>
 
-          <!-- Filtro Local (Visible/Activo solo para rol 'general') -->
+          <!-- Filtro Local / Empresa (Visible solo para rol General) -->
           <div id="contenedor-filtro-local">
             <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Local / Empresa</label>
             <select id="filtro-local" onchange="aplicarFiltros()" class="w-full bg-pastel-canvas/60 border border-pastel-border text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
@@ -184,7 +178,6 @@
             </select>
           </div>
 
-          <!-- Filtro Área -->
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Área</label>
             <select id="filtro-area" onchange="aplicarFiltros()" class="w-full bg-pastel-canvas/60 border border-pastel-border text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
@@ -192,7 +185,6 @@
             </select>
           </div>
 
-          <!-- Filtro Turno -->
           <div>
             <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Turno</label>
             <select id="filtro-turno" onchange="aplicarFiltros()" class="w-full bg-pastel-canvas/60 border border-pastel-border text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
@@ -201,7 +193,7 @@
           </div>
         </section>
 
-        <!-- TABLA PRINCIPAL DE DATOS -->
+        <!-- TABLA -->
         <section class="bg-white rounded-2xl border border-pastel-border shadow-xs overflow-hidden">
           <div class="px-6 py-4 border-b border-pastel-border flex justify-between items-center bg-slate-50/40">
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -223,7 +215,7 @@
                 </tr>
               </thead>
               <tbody id="tabla-cuerpo" class="divide-y divide-pastel-border text-slate-600 font-medium">
-                <!-- Poblado dinámicamente -->
+                <!-- Se puebla mediante JS -->
               </tbody>
             </table>
           </div>
@@ -236,28 +228,28 @@
   <div id="modal-ficha" class="fixed inset-0 bg-slate-900/50 z-50 hidden items-center justify-center p-4 backdrop-blur-xs">
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[92vh] border border-pastel-border">
       
-      <!-- Modal Header -->
+      <!-- Cabecera Modal -->
       <div class="bg-pastel-sidebar text-white px-6 py-4 flex justify-between items-center shrink-0">
         <div>
           <h3 class="font-bold text-sm">Expediente del Colaborador</h3>
           <p class="text-[11px] text-slate-400">Datos obtenidos de la evaluación y visita sociofamiliar</p>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="imprimirFichaDirecta()" class="bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+          <button onclick="imprimirFichaDirecta()" class="bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-xs">
             🖨️ Descargar Ficha PDF / Imprimir
           </button>
           <button onclick="cerrarModal()" class="text-slate-400 hover:text-white font-bold text-xl px-2 transition">&times;</button>
         </div>
       </div>
 
-      <!-- Contenedor Ficha (Visualización en pantalla y molde de impresión) -->
+      <!-- Contenedor Ficha Imprimible -->
       <div id="ficha-printable-content" class="p-6 overflow-y-auto space-y-4 text-xs bg-pastel-canvas">
         
-        <!-- Encabezado con Logo y Datos Clave -->
+        <!-- Bloque 1: Identificación y Logo -->
         <div class="bg-white p-5 rounded-2xl border border-pastel-border shadow-2xs">
           <div class="flex justify-between items-start border-b border-pastel-border pb-4 mb-4">
             <div class="flex items-center gap-4">
-              <img id="m-logo" src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png" class="w-12 h-12 object-contain p-1 rounded-xl border border-pastel-border bg-white" alt="Logo Sede">
+              <img id="m-logo" src="./img/default.png" class="w-12 h-12 object-contain p-1 rounded-xl border border-pastel-border bg-white" alt="Logo Sede">
               <div>
                 <h2 id="m-nombre" class="text-base font-black text-slate-800">-</h2>
                 <p class="text-slate-500 text-xs">DNI: <span id="m-dni" class="font-bold text-slate-700 font-mono">-</span></p>
@@ -277,7 +269,7 @@
           </div>
         </div>
 
-        <!-- Condiciones Habitacionales -->
+        <!-- Bloque 2: Habitacional y Familia -->
         <div class="bg-white p-5 rounded-2xl border border-pastel-border shadow-2xs space-y-3">
           <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] border-b border-pastel-border pb-1.5 flex items-center gap-1.5">
             <span>🏠</span> Entorno Habitacional y Familiar
@@ -293,7 +285,7 @@
           </div>
         </div>
 
-        <!-- Situación Social y Apoyo -->
+        <!-- Bloque 3: Social y Apoyo -->
         <div class="bg-white p-5 rounded-2xl border border-pastel-border shadow-2xs space-y-3">
           <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] border-b border-pastel-border pb-1.5 flex items-center gap-1.5">
             <span>🤝</span> Situación Social y Requerimientos
@@ -320,7 +312,25 @@
 
   <!-- SCRIPT LOGICO -->
   <script>
+    // URL de tu Apps Script publicada como Web App
     const API_URL = "https://script.google.com/macros/s/AKfycbwRxY3Q_RJfG6hS6BRqY3hmiVqZmm23NvvM8aSiU-TftFeheZNpD6GYVAyDAh-uFktvZQ/exec";
+
+    // Diccionario de imágenes locales en tu repositorio de GitHub Pages
+    const LOGOS_LOCALES = {
+      "La Benita": "./img/La Benita.png",
+      "La Guardiana": "./img/La Guardiana.png",
+      "Planta": "./img/Planta.png",
+      "TODOS": "./img/Default.png"
+    };
+
+    function obtenerLogo(identificador) {
+      if (!identificador) return LOGOS_LOCALES["TODOS"];
+      const clave = identificador.toUpperCase();
+      for (const [k, url] of Object.entries(LOGOS_LOCALES)) {
+        if (clave.includes(k)) return url;
+      }
+      return LOGOS_LOCALES["TODOS"];
+    }
 
     let colaboradores = [];
     let usuarioActual = null;
@@ -370,12 +380,10 @@
       document.getElementById('user-rol-tag').innerText = usuarioActual.rol === 'general' ? 'Acceso Corporativo' : `Admin: ${usuarioActual.local}`;
       document.getElementById('sidebar-sede-label').innerText = usuarioActual.rol === 'general' ? 'Vista Consolidada' : usuarioActual.local;
 
-      // Configurar Logo si el usuario lo tiene asignado
-      if (usuarioActual.logoUrl) {
-        document.getElementById('sidebar-logo').src = usuarioActual.logoUrl;
-      }
+      // Asigna el logo local correspondiente según la sede
+      document.getElementById('sidebar-logo').src = obtenerLogo(usuarioActual.local);
 
-      // Si no es admin general, ocultar el dropdown de locales porque ya está acotado
+      // Si es un admin de sede, se oculta el selector de locales
       const contLocal = document.getElementById('contenedor-filtro-local');
       if (usuarioActual.rol !== 'general') {
         contLocal.classList.add('hidden');
@@ -393,20 +401,17 @@
     }
 
     function inicializarSelects() {
-      // Poblar Locales (Empresas)
       const locales = [...new Set(colaboradores.map(c => c.empresa).filter(Boolean))];
       const selectLocal = document.getElementById('filtro-local');
-      selectLocal.innerHTML = '<option value="">Todos los Locales</option>' + locales.map(l => `<option value="${l}">${l}</option>`).join('');
+      selectLocal.innerHTML = '<option value="">Todos los Locales</option>' + locales.map(l => `<option value="${escapeHTML(l)}">${escapeHTML(l)}</option>`).join('');
 
-      // Poblar Áreas
       const areas = [...new Set(colaboradores.map(c => c.area).filter(Boolean))];
       const selectArea = document.getElementById('filtro-area');
-      selectArea.innerHTML = '<option value="">Todas las Áreas</option>' + areas.map(a => `<option value="${a}">${a}</option>`).join('');
+      selectArea.innerHTML = '<option value="">Todas las Áreas</option>' + areas.map(a => `<option value="${escapeHTML(a)}">${escapeHTML(a)}</option>`).join('');
 
-      // Poblar Turnos
       const turnos = [...new Set(colaboradores.map(c => c.turno).filter(Boolean))];
       const selectTurno = document.getElementById('filtro-turno');
-      selectTurno.innerHTML = '<option value="">Todos los Turnos</option>' + turnos.map(t => `<option value="${t}">${t}</option>`).join('');
+      selectTurno.innerHTML = '<option value="">Todos los Turnos</option>' + turnos.map(t => `<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join('');
     }
 
     function aplicarFiltros() {
@@ -490,11 +495,8 @@
       document.getElementById('m-tipoapoyo').innerText = reg.tipoApoyo;
       document.getElementById('m-visita').innerText = reg.infoVisita;
 
-      // Colocar logo en la ficha si existe
-      const logoFicha = document.getElementById('m-logo');
-      if (usuarioActual && usuarioActual.logoUrl) {
-        logoFicha.src = usuarioActual.logoUrl;
-      }
+      // Asignar el logo de la empresa específica a la ficha
+      document.getElementById('m-logo').src = obtenerLogo(reg.empresa);
 
       const modal = document.getElementById('modal-ficha');
       modal.classList.remove('hidden');
@@ -507,28 +509,57 @@
       modal.classList.add('hidden');
     }
 
-    // ================= SOLUCIÓN DEFINITIVA DE IMPRESIÓN / PDF =================
-    // Abre una ventana limpia de impresión con los estilos inyectados, evitando páginas en blanco
+    // Solución para generar la impresión o PDF sin hojas en blanco
     function imprimirFichaDirecta() {
-      const fichaHtml = document.getElementById('ficha-printable-content').innerHTML;
+      if (!colaboradorSeleccionado) return;
 
-      const ventanaImpresion = window.open('', '_blank', 'width=800,height=900');
+      const rutaLogoRelativa = obtenerLogo(colaboradorSeleccionado.empresa);
+      const rutaLogoAbsoluta = new URL(rutaLogoRelativa, window.location.href).href;
+
+      const imgFicha = document.getElementById('m-logo');
+      const srcOriginal = imgFicha.src;
+      imgFicha.src = rutaLogoAbsoluta;
+
+      const fichaHtml = document.getElementById('ficha-printable-content').innerHTML;
+      imgFicha.src = srcOriginal;
+
+      const ventanaImpresion = window.open('', '_blank', 'width=850,height=900');
       ventanaImpresion.document.write(`
         <!DOCTYPE html>
         <html lang="es">
         <head>
           <meta charset="UTF-8">
-          <title>Ficha - ${colaboradorSeleccionado ? colaboradorSeleccionado.nombreCompleto : 'Colaborador'}</title>
+          <title>Ficha - ${escapeHTML(colaboradorSeleccionado.nombreCompleto)}</title>
           <script src="https://cdn.tailwindcss.com"><\/script>
           <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #fff !important; color: #1e293b; padding: 25px; }
-            @page { margin: 15mm; size: A4 portrait; }
+            body { 
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+              background: #ffffff !important; 
+              color: #1e293b; 
+              padding: 20px; 
+            }
+            @page { 
+              margin: 12mm; 
+              size: A4 portrait; 
+            }
+            img { 
+              max-width: 100%; 
+              height: auto; 
+            }
           </style>
         </head>
-        <body onload="setTimeout(function(){ window.print(); window.close(); }, 500)">
+        <body>
           <div class="max-w-3xl mx-auto">
             ${fichaHtml}
           </div>
+          <script>
+            window.onload = function() {
+              setTimeout(function() {
+                window.print();
+                window.close();
+              }, 400);
+            };
+          <\/script>
         </body>
         </html>
       `);
