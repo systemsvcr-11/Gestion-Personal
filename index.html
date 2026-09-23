@@ -17,15 +17,18 @@
             sans: ['"Plus Jakarta Sans"', 'sans-serif'],
           },
           colors: {
+            crema: {
+              50: '#FDFCF9',
+              100: '#FBF9F4',    // Fondo principal crema cálido
+              200: '#F4EFE6',    // Borde / acento suave
+              300: '#EAE2D3',
+            },
             pastel: {
-              canvas: '#F7F6F2',     // Fondo cálido no deslumbrante
-              sidebar: '#2D323F',    // Carbón suave pastel
-              accent: '#818CF8',     // Índigo pastel
-              mint: '#D1FAE5',       // Menta pastel
-              mintDark: '#065F46',
-              lavender: '#EDE9FE',   // Lavanda pastel
-              lavenderDark: '#5B21B6',
-              border: '#E8E5DD'
+              sidebar: '#1E232F',
+              accent: '#6366F1',
+              lavender: '#F1F0FB',
+              lavenderDark: '#4338CA',
+              border: '#E8E5DF'
             }
           }
         }
@@ -33,33 +36,33 @@
     }
   </script>
 </head>
-<body class="bg-pastel-canvas font-sans text-slate-700 min-h-screen antialiased flex flex-col">
+<body class="bg-crema-100 font-sans text-slate-700 min-h-screen antialiased flex flex-col">
 
   <!-- ==================== VISTA 1: LOGIN ==================== -->
-  <div id="vista-login" class="flex min-h-screen items-center justify-center p-6 bg-gradient-to-br from-indigo-50/50 via-pastel-canvas to-emerald-50/40">
-    <div class="bg-white/95 backdrop-blur-md rounded-3xl shadow-xl border border-pastel-border w-full max-w-md p-8 sm:p-10 transition-all">
+  <div id="vista-login" class="flex min-h-screen items-center justify-center p-6 bg-crema-100">
+    <div class="bg-white/95 rounded-3xl shadow-xl border border-crema-200 w-full max-w-md p-8 sm:p-10 transition-all">
       <div class="text-center mb-8">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-pastel-lavender text-pastel-lavenderDark font-extrabold text-2xl mb-4 shadow-xs border border-indigo-100">
-          RH
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-pastel-lavender text-pastel-lavenderDark font-extrabold text-2xl mb-4 border border-indigo-100 shadow-2xs">
+          HR
         </div>
-        <h1 class="text-2xl font-black text-slate-800 tracking-tight">Acceso al Sistema</h1>
-        <p class="text-slate-400 text-xs mt-1 font-medium">Gestión de Talento, Sedes y Bienestar Social</p>
+        <h1 class="text-2xl font-black text-slate-800 tracking-tight">Acceso Corporativo</h1>
+        <p class="text-slate-400 text-xs mt-1.5 font-medium">Plataforma de Talento y Bienestar Social</p>
       </div>
 
       <form id="form-login" onsubmit="ejecutarLogin(event)" class="space-y-4">
         <div>
           <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Usuario</label>
           <input type="text" id="login-user" required placeholder="Ej: admin, local1" 
-                 class="w-full px-4 py-3 rounded-xl border border-pastel-border text-sm focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none transition bg-slate-50/60 font-medium">
+                 class="w-full px-4 py-3 rounded-xl border border-crema-200 text-sm focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none transition bg-crema-50/70 font-medium">
         </div>
         <div>
           <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Contraseña</label>
           <input type="password" id="login-pass" required placeholder="••••••••" 
-                 class="w-full px-4 py-3 rounded-xl border border-pastel-border text-sm focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none transition bg-slate-50/60 font-medium">
+                 class="w-full px-4 py-3 rounded-xl border border-crema-200 text-sm focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none transition bg-crema-50/70 font-medium">
         </div>
         <div id="login-error" class="hidden text-rose-700 text-xs font-semibold bg-rose-50 p-3 rounded-xl border border-rose-200 text-center"></div>
         <button type="submit" id="btn-login" 
-                class="w-full py-3.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2">
+                class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2">
           Ingresar al Portal
         </button>
       </form>
@@ -70,50 +73,51 @@
   <div id="vista-panel" class="hidden min-h-screen flex flex-row overflow-hidden">
     
     <!-- BARRA LATERAL (SIDEBAR) -->
-    <aside class="w-64 bg-pastel-sidebar text-white shrink-0 flex flex-col justify-between shadow-2xl z-30">
+    <aside class="w-68 bg-pastel-sidebar text-white shrink-0 flex flex-col justify-between shadow-2xl z-30">
       <div>
-        <!-- Logo de la Sede / Identidad -->
-        <div class="p-6 border-b border-slate-700/60 flex items-center gap-3">
-          <div id="sidebar-logo-container" class="w-11 h-11 rounded-xl bg-slate-800 border border-slate-600/50 flex items-center justify-center overflow-hidden p-1.5">
+        <!-- Contenedor del Logo de Sede / Corporativo -->
+        <div class="p-6 border-b border-slate-700/60 flex items-center gap-3.5">
+          <!-- Fondo dark suave para asegurar visibilidad de logos blancos (ej. Matrona) -->
+          <div id="sidebar-logo-container" class="w-14 h-14 rounded-2xl bg-slate-800/90 border border-slate-600/60 flex items-center justify-center p-2 shadow-inner shrink-0">
             <img id="sidebar-logo" src="./img/default.png" class="max-h-full max-w-full object-contain" alt="Logo Sede">
           </div>
           <div class="overflow-hidden">
-            <h1 id="sidebar-app-title" class="text-sm font-black text-white tracking-wide truncate">RESTAURANTES</h1>
-            <p id="sidebar-sede-label" class="text-[11px] text-indigo-300 font-medium truncate">Sede General</p>
+            <h1 id="sidebar-app-title" class="text-sm font-black text-white tracking-wide truncate">GRUPO GASTRONÓMICO</h1>
+            <p id="sidebar-sede-label" class="text-[11px] text-indigo-300 font-semibold truncate mt-0.5">Sede General</p>
           </div>
         </div>
 
-        <!-- Navegación y Módulos -->
+        <!-- Módulos de Gestión -->
         <nav class="p-4 space-y-1.5 text-xs font-semibold">
-          <p class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Módulos de Gestión</p>
+          <p class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Módulos</p>
           
           <!-- Módulo Activo -->
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-indigo-500/20 text-indigo-200 border border-indigo-400/30 transition">
-            <span class="text-sm">👥</span>
+          <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-xl bg-indigo-500/20 text-indigo-200 border border-indigo-400/30 transition">
+            <span class="text-base">👥</span>
             <span>Colaboradores</span>
           </a>
 
-          <!-- Módulos Inhabilitados (Próximamente) -->
+          <!-- Módulos Deshabilitados -->
           <div class="opacity-40 cursor-not-allowed select-none space-y-1 pt-1">
-            <div class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-400">
+            <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400">
               <div class="flex items-center gap-3">
-                <span class="text-sm">🌟</span>
+                <span class="text-base">🌟</span>
                 <span>Talentos Ocultos</span>
               </div>
               <span class="text-[9px] bg-slate-800 border border-slate-700 text-slate-400 px-1.5 py-0.5 rounded font-mono">PRÓX</span>
             </div>
 
-            <div class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-400">
+            <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400">
               <div class="flex items-center gap-3">
-                <span class="text-sm">⏰</span>
+                <span class="text-base">⏰</span>
                 <span>Turnos y Horarios</span>
               </div>
               <span class="text-[9px] bg-slate-800 border border-slate-700 text-slate-400 px-1.5 py-0.5 rounded font-mono">PRÓX</span>
             </div>
 
-            <div class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-400">
+            <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-400">
               <div class="flex items-center gap-3">
-                <span class="text-sm">🚨</span>
+                <span class="text-base">🚨</span>
                 <span>Asistencia Social</span>
               </div>
               <span class="text-[9px] bg-slate-800 border border-slate-700 text-slate-400 px-1.5 py-0.5 rounded font-mono">PRÓX</span>
@@ -122,99 +126,102 @@
         </nav>
       </div>
 
-      <!-- Pie de Barra Lateral -->
-      <div class="p-4 border-t border-slate-700/60 bg-slate-900/40">
-        <div class="flex items-center justify-between">
-          <div class="truncate mr-2">
-            <p id="user-nombre" class="text-xs font-bold text-white truncate">-</p>
-            <p id="user-rol-tag" class="text-[10px] text-slate-400 font-medium truncate">Sesión activa</p>
-          </div>
-          <button onclick="cerrarSesion()" title="Cerrar Sesión" class="p-2 text-slate-400 hover:text-rose-300 hover:bg-slate-800 rounded-lg transition">
-            🚪
-          </button>
+      <!-- Pie del Sidebar con Botón Elegante de Salida -->
+      <div class="p-4 border-t border-slate-700/60 bg-slate-900/50 space-y-3">
+        <div class="px-2">
+          <p id="user-nombre" class="text-xs font-bold text-white truncate">-</p>
+          <p id="user-rol-tag" class="text-[10px] text-slate-400 font-medium truncate">Sesión activa</p>
         </div>
+
+        <button onclick="cerrarSesion()" 
+                class="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-slate-800/80 hover:bg-rose-950/40 text-slate-300 hover:text-rose-200 border border-slate-700 hover:border-rose-500/40 text-xs font-semibold transition duration-150 group">
+          <svg class="w-4 h-4 text-slate-400 group-hover:text-rose-300 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          <span>Cerrar Sesión</span>
+        </button>
       </div>
     </aside>
 
-    <!-- CONTENIDO DERECHO -->
+    <!-- ÁREA DE CONTENIDO CENTRAL -->
     <div class="flex-1 flex flex-col h-screen overflow-y-auto">
       
       <!-- HEADER SUPERIOR -->
-      <header class="bg-white/80 backdrop-blur-sm border-b border-pastel-border px-8 py-4 flex justify-between items-center sticky top-0 z-20">
+      <header class="bg-white/80 backdrop-blur-sm border-b border-crema-200 px-8 py-4 flex justify-between items-center sticky top-0 z-20">
         <div>
-          <h2 class="text-lg font-bold text-slate-800">Directorio de Colaboradores</h2>
-          <p class="text-xs text-slate-400">Visitas de bienestar y encuestas socioeconómicas</p>
+          <h2 class="text-lg font-bold text-slate-800 tracking-tight">Directorio de Colaboradores</h2>
+          <p class="text-xs text-slate-400">Datos consolidados de visitas sociofamiliares</p>
         </div>
 
         <div class="flex items-center gap-3">
-          <span class="px-3 py-1 bg-pastel-mint text-pastel-mintDark text-xs font-bold rounded-full border border-emerald-200/60">
-            En línea
+          <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-full border border-emerald-200/70">
+            ● Sistema Conectado
           </span>
         </div>
       </header>
 
-      <!-- ÁREA DE TRABAJO -->
+      <!-- CUERPO PRINCIPAL -->
       <main class="p-8 space-y-6 max-w-7xl w-full mx-auto">
 
-        <!-- FILTROS MULTICRITERIO -->
-        <section class="bg-white p-5 rounded-2xl border border-pastel-border shadow-xs grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+        <!-- FILTROS MODERNOS -->
+        <section class="bg-white p-5 rounded-2xl border border-crema-200 shadow-2xs grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3.5">
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nombre o Apellido</label>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Nombre o Apellido</label>
             <input type="text" id="filtro-nombre" oninput="aplicarFiltros()" placeholder="Buscar colaborador..." 
-                   class="w-full bg-pastel-canvas/60 border border-pastel-border text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-200">
+                   class="w-full bg-crema-50/70 border border-crema-200 text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-200">
           </div>
 
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">D.N.I.</label>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">D.N.I.</label>
             <input type="text" id="filtro-dni" oninput="aplicarFiltros()" placeholder="Documento..." 
-                   class="w-full bg-pastel-canvas/60 border border-pastel-border text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-200 font-mono">
+                   class="w-full bg-crema-50/70 border border-crema-200 text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-200 font-mono">
           </div>
 
-          <!-- Filtro Local / Empresa (Visible solo para rol General) -->
+          <!-- Filtro Local / Empresa (Solo rol General) -->
           <div id="contenedor-filtro-local">
-            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Local / Empresa</label>
-            <select id="filtro-local" onchange="aplicarFiltros()" class="w-full bg-pastel-canvas/60 border border-pastel-border text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
-              <option value="">Todos los Locales</option>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Empresa / Sede</label>
+            <select id="filtro-local" onchange="aplicarFiltros()" class="w-full bg-crema-50/70 border border-crema-200 text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
+              <option value="">Todas las Sedes</option>
             </select>
           </div>
 
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Área</label>
-            <select id="filtro-area" onchange="aplicarFiltros()" class="w-full bg-pastel-canvas/60 border border-pastel-border text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Área Operativa</label>
+            <select id="filtro-area" onchange="aplicarFiltros()" class="w-full bg-crema-50/70 border border-crema-200 text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
               <option value="">Todas las Áreas</option>
             </select>
           </div>
 
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Turno</label>
-            <select id="filtro-turno" onchange="aplicarFiltros()" class="w-full bg-pastel-canvas/60 border border-pastel-border text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Turno</label>
+            <select id="filtro-turno" onchange="aplicarFiltros()" class="w-full bg-crema-50/70 border border-crema-200 text-slate-700 text-xs rounded-xl px-3 py-2.5 outline-none font-medium">
               <option value="">Todos los Turnos</option>
             </select>
           </div>
         </section>
 
-        <!-- TABLA -->
-        <section class="bg-white rounded-2xl border border-pastel-border shadow-xs overflow-hidden">
-          <div class="px-6 py-4 border-b border-pastel-border flex justify-between items-center bg-slate-50/40">
+        <!-- TABLA DE COLABORADORES -->
+        <section class="bg-white rounded-2xl border border-crema-200 shadow-2xs overflow-hidden">
+          <div class="px-6 py-4 border-b border-crema-200 flex justify-between items-center bg-slate-50/40">
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Registros Encontrados: <strong id="contador-total" class="text-slate-800 text-sm">0</strong>
+              Registros Totales: <strong id="contador-total" class="text-slate-800 text-sm">0</strong>
             </h3>
           </div>
 
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs whitespace-nowrap">
-              <thead class="bg-slate-50/80 border-b border-pastel-border text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+              <thead class="bg-slate-50/80 border-b border-crema-200 text-[10px] font-bold uppercase text-slate-400 tracking-wider">
                 <tr>
                   <th class="px-6 py-3.5">DNI</th>
                   <th class="px-6 py-3.5">Nombres</th>
                   <th class="px-6 py-3.5">Apellidos</th>
-                  <th class="px-6 py-3.5">Empresa / Local</th>
+                  <th class="px-6 py-3.5">Empresa / Sede</th>
                   <th class="px-6 py-3.5">Área</th>
                   <th class="px-6 py-3.5">Turno</th>
                   <th class="px-6 py-3.5 text-center">Ficha 360°</th>
                 </tr>
               </thead>
-              <tbody id="tabla-cuerpo" class="divide-y divide-pastel-border text-slate-600 font-medium">
+              <tbody id="tabla-cuerpo" class="divide-y divide-crema-200 text-slate-600 font-medium">
                 <!-- Se puebla mediante JS -->
               </tbody>
             </table>
@@ -224,85 +231,138 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL DE FICHA ==================== -->
-  <div id="modal-ficha" class="fixed inset-0 bg-slate-900/50 z-50 hidden items-center justify-center p-4 backdrop-blur-xs">
-    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[92vh] border border-pastel-border">
+  <!-- ==================== MODAL DE EXPEDIENTE ==================== -->
+  <div id="modal-ficha" class="fixed inset-0 bg-slate-900/60 z-50 hidden items-center justify-center p-4 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[92vh] border border-crema-200">
       
       <!-- Cabecera Modal -->
-      <div class="bg-pastel-sidebar text-white px-6 py-4 flex justify-between items-center shrink-0">
+      <div class="bg-pastel-sidebar text-white px-7 py-4 flex justify-between items-center shrink-0">
         <div>
-          <h3 class="font-bold text-sm">Expediente del Colaborador</h3>
-          <p class="text-[11px] text-slate-400">Datos obtenidos de la evaluación y visita sociofamiliar</p>
+          <h3 class="font-bold text-sm tracking-wide">Expediente Socioeconómico y Laboral</h3>
+          <p class="text-[11px] text-slate-400">Información consolidada para uso exclusivo de RRHH</p>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="imprimirFichaDirecta()" class="bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-xs">
+        <div class="flex items-center gap-3">
+          <button onclick="imprimirFichaDirecta()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-2 shadow-xs">
             🖨️ Descargar Ficha PDF / Imprimir
           </button>
-          <button onclick="cerrarModal()" class="text-slate-400 hover:text-white font-bold text-xl px-2 transition">&times;</button>
+          <button onclick="cerrarModal()" class="text-slate-400 hover:text-white font-bold text-2xl transition leading-none">&times;</button>
         </div>
       </div>
 
-      <!-- Contenedor Ficha Imprimible -->
-      <div id="ficha-printable-content" class="p-6 overflow-y-auto space-y-4 text-xs bg-pastel-canvas">
+      <!-- Contenedor Ficha (Renderizado en pantalla y Molde de Impresión Corporativo) -->
+      <div id="ficha-printable-content" class="p-8 overflow-y-auto space-y-6 text-xs bg-white">
         
-        <!-- Bloque 1: Identificación y Logo -->
-        <div class="bg-white p-5 rounded-2xl border border-pastel-border shadow-2xs">
-          <div class="flex justify-between items-start border-b border-pastel-border pb-4 mb-4">
-            <div class="flex items-center gap-4">
-              <img id="m-logo" src="./img/default.png" class="w-12 h-12 object-contain p-1 rounded-xl border border-pastel-border bg-white" alt="Logo Sede">
-              <div>
-                <h2 id="m-nombre" class="text-base font-black text-slate-800">-</h2>
-                <p class="text-slate-500 text-xs">DNI: <span id="m-dni" class="font-bold text-slate-700 font-mono">-</span></p>
-              </div>
+        <!-- MEMBRETE FORMAL CORPORATIVO -->
+        <div class="border-b-2 border-slate-800 pb-5 flex justify-between items-start">
+          <div class="flex items-center gap-5">
+            <!-- Contenedor de Logo del Local: fondo neutro oscuro elegante para logos blancos o de color -->
+            <div class="w-16 h-16 rounded-2xl bg-slate-900 flex items-center justify-center p-2.5 border border-slate-700 shadow-xs shrink-0">
+              <img id="m-logo" src="./img/default.png" class="max-h-full max-w-full object-contain" alt="Logo Empresa">
             </div>
-            <div class="text-right">
-              <span id="m-empresa" class="inline-block px-3 py-1 bg-pastel-lavender text-pastel-lavenderDark font-bold rounded-lg border border-indigo-200/60 text-[11px]">-</span>
-              <p id="m-fecha" class="text-[10px] text-slate-400 mt-1 font-mono">-</p>
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Ficha Individual de Colaborador</p>
+              <h2 id="m-nombre" class="text-xl font-extrabold text-slate-900 mt-0.5">-</h2>
+              <p class="text-slate-500 font-medium text-xs mt-0.5">D.N.I.: <span id="m-dni" class="font-bold text-slate-800 font-mono">-</span></p>
             </div>
           </div>
-
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-slate-600">
-            <div><span class="font-bold text-slate-400 block text-[10px] uppercase">Área</span> <p id="m-area" class="font-bold text-slate-800 text-xs mt-0.5">-</p></div>
-            <div><span class="font-bold text-slate-400 block text-[10px] uppercase">Turno</span> <p id="m-turno" class="font-bold text-slate-800 text-xs mt-0.5">-</p></div>
-            <div><span class="font-bold text-slate-400 block text-[10px] uppercase">Transporte</span> <p id="m-transporte" class="font-medium text-slate-700 text-xs mt-0.5">-</p></div>
-            <div><span class="font-bold text-slate-400 block text-[10px] uppercase">Estudios</span> <p id="m-estudia" class="font-medium text-slate-700 text-xs mt-0.5">-</p></div>
+          <div class="text-right">
+            <span id="m-empresa" class="inline-block px-3.5 py-1.5 bg-slate-100 text-slate-800 font-extrabold rounded-lg border border-slate-300 text-xs uppercase tracking-wider">-</span>
+            <p id="m-fecha" class="text-[10px] text-slate-400 mt-1 font-mono">Registro: -</p>
           </div>
         </div>
 
-        <!-- Bloque 2: Habitacional y Familia -->
-        <div class="bg-white p-5 rounded-2xl border border-pastel-border shadow-2xs space-y-3">
-          <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] border-b border-pastel-border pb-1.5 flex items-center gap-1.5">
+        <!-- SECCIÓN 1: DATOS OPERATIVOS -->
+        <div class="space-y-3">
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-indigo-900 border-b border-slate-200 pb-1 flex items-center gap-2">
+            <span>📋</span> Datos Operativos y Académicos
+          </h4>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl bg-slate-50/70 border border-slate-200/80">
+            <div>
+              <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Área Asignada</span>
+              <p id="m-area" class="font-bold text-slate-800 text-xs mt-0.5">-</p>
+            </div>
+            <div>
+              <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Turno de Trabajo</span>
+              <p id="m-turno" class="font-bold text-slate-800 text-xs mt-0.5">-</p>
+            </div>
+            <div>
+              <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Medio de Transporte</span>
+              <p id="m-transporte" class="font-medium text-slate-700 text-xs mt-0.5">-</p>
+            </div>
+            <div>
+              <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Centro de Estudios</span>
+              <p id="m-estudia" class="font-medium text-slate-700 text-xs mt-0.5">-</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: ENTORNO HABITACIONAL -->
+        <div class="space-y-3">
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-indigo-900 border-b border-slate-200 pb-1 flex items-center gap-2">
             <span>🏠</span> Entorno Habitacional y Familiar
           </h4>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div><strong class="text-slate-400 block text-[10px] uppercase">Dirección</strong> <p id="m-direccion" class="font-medium text-slate-700 mt-0.5">-</p></div>
-            <div><strong class="text-slate-400 block text-[10px] uppercase">Convive con</strong> <p id="m-vive" class="font-medium text-slate-700 mt-0.5">-</p></div>
-            <div><strong class="text-slate-400 block text-[10px] uppercase">Condición Vivienda</strong> <p id="m-vivienda" class="font-medium text-slate-700 mt-0.5">-</p></div>
-          </div>
-          <div class="pt-2 border-t border-slate-100">
-            <strong class="text-slate-400 block text-[10px] uppercase">Servicios Básicos Declarados</strong>
-            <p id="m-servicios" class="font-semibold text-slate-700 mt-0.5">-</p>
+          <div class="p-4 rounded-xl bg-slate-50/70 border border-slate-200/80 space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Dirección Domiciliaria</span>
+                <p id="m-direccion" class="font-medium text-slate-700 mt-0.5 leading-relaxed">-</p>
+              </div>
+              <div>
+                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Composición del Hogar</span>
+                <p id="m-vive" class="font-medium text-slate-700 mt-0.5">-</p>
+              </div>
+              <div>
+                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Condición de la Vivienda</span>
+                <p id="m-vivienda" class="font-medium text-slate-700 mt-0.5">-</p>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-slate-200">
+              <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Cobertura de Servicios Básicos</span>
+              <p id="m-servicios" class="font-semibold text-slate-800 mt-0.5">-</p>
+            </div>
           </div>
         </div>
 
-        <!-- Bloque 3: Social y Apoyo -->
-        <div class="bg-white p-5 rounded-2xl border border-pastel-border shadow-2xs space-y-3">
-          <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] border-b border-pastel-border pb-1.5 flex items-center gap-1.5">
-            <span>🤝</span> Situación Social y Requerimientos
+        <!-- SECCIÓN 3: EVALUACIÓN SOCIAL Y APOYO -->
+        <div class="space-y-3">
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-indigo-900 border-b border-slate-200 pb-1 flex items-center gap-2">
+            <span>🤝</span> Diagnóstico Social y Requerimientos de Bienestar
           </h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <strong class="text-slate-500">¿Cuenta con Apoyo Familiar?:</strong> <span id="m-apoyo" class="font-bold text-slate-700 ml-1">-</span>
-              <p id="m-detalle-apoyo" class="text-slate-600 italic mt-1 bg-slate-50 p-2 rounded-lg border border-slate-100">-</p>
+          <div class="p-4 rounded-xl bg-slate-50/70 border border-slate-200/80 space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Apoyo Familiar Declarado</span>
+                <p class="font-bold text-slate-800 mt-0.5" id="m-apoyo">-</p>
+                <p id="m-detalle-apoyo" class="text-slate-600 italic text-[11px] mt-1 bg-white p-2.5 rounded-lg border border-slate-200/70 leading-relaxed">-</p>
+              </div>
+              <div>
+                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Factores que Afectan Estudio/Trabajo</span>
+                <p class="font-bold text-slate-800 mt-0.5" id="m-afecta">-</p>
+                <p id="m-detalle-afecta" class="text-slate-600 italic text-[11px] mt-1 bg-white p-2.5 rounded-lg border border-slate-200/70 leading-relaxed">-</p>
+              </div>
             </div>
-            <div>
-              <strong class="text-slate-500">¿Situación que afecta estudio/trabajo?:</strong> <span id="m-afecta" class="font-bold text-slate-700 ml-1">-</span>
-              <p id="m-detalle-afecta" class="text-slate-600 italic mt-1 bg-slate-50 p-2 rounded-lg border border-slate-100">-</p>
+            <div class="pt-3 border-t border-slate-200 space-y-2">
+              <div>
+                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Apoyo Solicitado a la Empresa</span>
+                <p id="m-tipoapoyo" class="font-semibold text-indigo-950 mt-0.5 text-xs">-</p>
+              </div>
+              <div>
+                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Observaciones Generales de la Visita</span>
+                <p id="m-visita" class="text-slate-600 mt-0.5 leading-relaxed">-</p>
+              </div>
             </div>
           </div>
-          <div class="pt-2 border-t border-slate-100 space-y-1.5">
-            <p><strong class="text-slate-500">Tipo de apoyo solicitado:</strong> <span id="m-tipoapoyo" class="font-semibold text-indigo-700 ml-1">-</span></p>
-            <p><strong class="text-slate-500">Observaciones registradas en visita:</strong> <span id="m-visita" class="text-slate-600 ml-1">-</span></p>
+        </div>
+
+        <!-- SECCIÓN DE FIRMAS PARA EL PDF -->
+        <div class="pt-8 grid grid-cols-2 gap-12 mt-8 text-center border-t border-slate-200">
+          <div>
+            <div class="border-b border-slate-400 w-48 mx-auto mb-1.5"></div>
+            <p class="text-[10px] font-bold uppercase text-slate-500">Firma del Colaborador</p>
+          </div>
+          <div>
+            <div class="border-b border-slate-400 w-48 mx-auto mb-1.5"></div>
+            <p class="text-[10px] font-bold uppercase text-slate-500">Responsable de Gestión de Talento</p>
           </div>
         </div>
 
@@ -310,7 +370,7 @@
     </div>
   </div>
 
-  <!-- SCRIPT LOGICO -->
+  <!-- ==================== LÓGICA Y CONTROLADORES ==================== -->
   <script>
     // URL de tu Apps Script publicada como Web App
     const API_URL = "https://script.google.com/macros/s/AKfycbwRxY3Q_RJfG6hS6BRqY3hmiVqZmm23NvvM8aSiU-TftFeheZNpD6GYVAyDAh-uFktvZQ/exec";
@@ -380,10 +440,10 @@
       document.getElementById('user-rol-tag').innerText = usuarioActual.rol === 'general' ? 'Acceso Corporativo' : `Admin: ${usuarioActual.local}`;
       document.getElementById('sidebar-sede-label').innerText = usuarioActual.rol === 'general' ? 'Vista Consolidada' : usuarioActual.local;
 
-      // Asigna el logo local correspondiente según la sede
+      // Logo del Sidebar según usuario que inició sesión
       document.getElementById('sidebar-logo').src = obtenerLogo(usuarioActual.local);
 
-      // Si es un admin de sede, se oculta el selector de locales
+      // Mostrar u ocultar el filtro de sedes
       const contLocal = document.getElementById('contenedor-filtro-local');
       if (usuarioActual.rol !== 'general') {
         contLocal.classList.add('hidden');
@@ -403,7 +463,7 @@
     function inicializarSelects() {
       const locales = [...new Set(colaboradores.map(c => c.empresa).filter(Boolean))];
       const selectLocal = document.getElementById('filtro-local');
-      selectLocal.innerHTML = '<option value="">Todos los Locales</option>' + locales.map(l => `<option value="${escapeHTML(l)}">${escapeHTML(l)}</option>`).join('');
+      selectLocal.innerHTML = '<option value="">Todas las Sedes</option>' + locales.map(l => `<option value="${escapeHTML(l)}">${escapeHTML(l)}</option>`).join('');
 
       const areas = [...new Set(colaboradores.map(c => c.area).filter(Boolean))];
       const selectArea = document.getElementById('filtro-area');
@@ -445,13 +505,13 @@
       document.getElementById('contador-total').innerText = datos.length;
 
       if (datos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="px-6 py-12 text-center text-slate-400">No hay registros con los filtros seleccionados.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="px-6 py-12 text-center text-slate-400">No se encontraron colaboradores bajo los criterios de búsqueda.</td></tr>`;
         return;
       }
 
       datos.forEach(row => {
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-indigo-50/30 transition border-b border-pastel-border";
+        tr.className = "hover:bg-indigo-50/20 transition border-b border-crema-200";
         tr.innerHTML = `
           <td class="px-6 py-3.5 font-mono text-slate-700 font-semibold">${escapeHTML(row.dni)}</td>
           <td class="px-6 py-3.5 font-bold text-slate-800">${escapeHTML(row.nombres)}</td>
@@ -460,7 +520,7 @@
           <td class="px-6 py-3.5 text-slate-600">${escapeHTML(row.area)}</td>
           <td class="px-6 py-3.5 text-slate-600">${escapeHTML(row.turno)}</td>
           <td class="px-6 py-3.5 text-center">
-            <button onclick="verFicha('${row.id}')" class="bg-pastel-lavender hover:bg-indigo-100 text-pastel-lavenderDark font-bold px-3 py-1.5 rounded-xl text-xs transition border border-indigo-200/50">
+            <button onclick="verFicha('${row.id}')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-3 py-1.5 rounded-xl text-xs transition border border-indigo-200/60">
               Ver Ficha
             </button>
           </td>
@@ -477,7 +537,7 @@
       document.getElementById('m-nombre').innerText = reg.nombreCompleto;
       document.getElementById('m-dni').innerText = reg.dni;
       document.getElementById('m-empresa').innerText = reg.empresa;
-      document.getElementById('m-fecha').innerText = `Registrado: ${reg.marcaTemporal}`;
+      document.getElementById('m-fecha').innerText = `Registro: ${reg.marcaTemporal}`;
       document.getElementById('m-area').innerText = reg.area;
       document.getElementById('m-turno').innerText = reg.turno;
       document.getElementById('m-transporte').innerText = reg.transporte;
@@ -495,7 +555,7 @@
       document.getElementById('m-tipoapoyo').innerText = reg.tipoApoyo;
       document.getElementById('m-visita').innerText = reg.infoVisita;
 
-      // Asignar el logo de la empresa específica a la ficha
+      // EL LOGO PERTENECE AL LOCAL DEL TRABAJADOR
       document.getElementById('m-logo').src = obtenerLogo(reg.empresa);
 
       const modal = document.getElementById('modal-ficha');
@@ -509,10 +569,11 @@
       modal.classList.add('hidden');
     }
 
-    // Solución para generar la impresión o PDF sin hojas en blanco
+    // IMPRESIÓN / GENERACIÓN DE PDF CORPORATIVO
     function imprimirFichaDirecta() {
       if (!colaboradorSeleccionado) return;
 
+      // Resuelve la URL absoluta del logo del colaborador para GitHub Pages
       const rutaLogoRelativa = obtenerLogo(colaboradorSeleccionado.empresa);
       const rutaLogoAbsoluta = new URL(rutaLogoRelativa, window.location.href).href;
 
@@ -523,28 +584,26 @@
       const fichaHtml = document.getElementById('ficha-printable-content').innerHTML;
       imgFicha.src = srcOriginal;
 
-      const ventanaImpresion = window.open('', '_blank', 'width=850,height=900');
+      const ventanaImpresion = window.open('', '_blank', 'width=900,height=950');
       ventanaImpresion.document.write(`
         <!DOCTYPE html>
         <html lang="es">
         <head>
           <meta charset="UTF-8">
-          <title>Ficha - ${escapeHTML(colaboradorSeleccionado.nombreCompleto)}</title>
+          <title>Expediente - ${escapeHTML(colaboradorSeleccionado.nombreCompleto)}</title>
           <script src="https://cdn.tailwindcss.com"><\/script>
+          <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
           <style>
             body { 
-              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+              font-family: "Plus Jakarta Sans", sans-serif; 
               background: #ffffff !important; 
-              color: #1e293b; 
-              padding: 20px; 
+              color: #0f172a; 
+              padding: 0;
+              margin: 0;
             }
             @page { 
-              margin: 12mm; 
+              margin: 14mm 16mm; 
               size: A4 portrait; 
-            }
-            img { 
-              max-width: 100%; 
-              height: auto; 
             }
           </style>
         </head>
