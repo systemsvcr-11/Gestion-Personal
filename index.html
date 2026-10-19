@@ -49,7 +49,7 @@
         <p class="text-slate-400 text-xs mt-1.5 font-medium">Plataforma de Talento y Bienestar Social</p>
       </div>
 
-      <form id="form-login" onsubmit="ejecutarLogin(event)" class="space-y-4">
+      <form id="form-login" onsubmit="(event)" class="space-y-4">
         <div>
           <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Usuario</label>
           <input type="text" id="login-user" required placeholder="Ej: admin, local1" 
@@ -432,45 +432,51 @@
       }
     }
 
-    async function ejecutarLogin(e) {
-      e.preventDefault();
-      const user = document.getElementById('login-user').value.trim();
-      const pass = document.getElementById('login-pass').value.trim();
-      const errorDiv = document.getElementById('login-error');
-      const btn = document.getElementById('btn-login');
-
-      errorDiv.classList.add('hidden');
-      btn.innerText = "Verificando acceso...";
-      btn.disabled = true;
-
-      try {
-        const res = await fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ accion: "login", usuario: user, password: pass })
-        });
-        const resJson = await res.json();
-
-        if (resJson.error) throw new Error(resJson.error);
-
-        usuarioActual = resJson.user;
-        colaboradores = resJson.data;
-
-        configurarInterfazUsuario();
-        document.getElementById('vista-login').classList.add('hidden');
-        document.getElementById('vista-panel').classList.remove('hidden');
-
-        inicializarSelects();
-        aplicarFiltros();
-      } catch (err) {
-        errorDiv.innerText = err.message || "Error al conectar con la base de datos";
-        errorDiv.classList.remove('hidden');
-      } finally {
-        btn.innerText = "Ingresar al Portal";
-        btn.disabled = false;
+      async function ejecutarLogin(e) {
+        if (e) e.preventDefault();
+        const user = document.getElementById('login-user').value.trim();
+        const pass = document.getElementById('login-pass').value.trim();
+        const errorDiv = document.getElementById('login-error');
+        const btn = document.getElementById('btn-login');
+  
+        errorDiv.classList.add('hidden');
+        btn.innerText = "Verificando acceso...";
+        btn.disabled = true;
+  
+        try {
+          const res = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ accion: "login", usuario: user, password: pass })
+          });
+          const resJson = await res.json();
+  
+          if (resJson.error) throw new Error(resJson.error);
+  
+          usuarioActual = resJson.user;
+          colaboradores = resJson.data;
+  
+          // Guardar sesión persistente de este módulo
+          localStorage.setItem('sigep_session', JSON.stringify({
+            user: usuarioActual,
+            data: colaboradores,
+            authAccount: user.toLowerCase()
+          }));
+  
+          configurarInterfazUsuario();
+          document.getElementById('vista-login').classList.add('hidden');
+          document.getElementById('vista-panel').classList.remove('hidden');
+  
+          inicializarSelects();
+          aplicarFiltros();
+        } catch (err) {
+          errorDiv.innerText = err.message || "Error al conectar con la base de datos";
+          errorDiv.classList.remove('hidden');
+        } finally {
+          btn.innerText = "Ingresar al Portal";
+          btn.disabled = false;
+        }
       }
-    }
-
     function configurarInterfazUsuario() {
       const confUser = obtenerConfigLogo(usuarioActual.local);
       const contLogoSidebar = document.getElementById('sidebar-logo-container');
@@ -491,6 +497,8 @@
     }
 
     function cerrarSesion() {
+      // Limpiar datos y almacenamiento local
+      localStorage.removeItem('sigep_session');
       usuarioActual = null;
       colaboradores = [];
       toggleSidebar(false);
@@ -498,6 +506,83 @@
       document.getElementById('vista-login').classList.remove('hidden');
       document.getElementById('login-pass').value = "";
     }
+
+    
+
+    // ================= DETECCIÓN DE SSO Y AUTO-LOGIN =================
+    window.addEventListener('DOMContentLoaded', async () => {
+      let ssoUser = null;
+      let ssoPass = null;
+      const hash = window.location.hash;
+
+      // 1. Verificar si viene el token SSO en el Hash (#sso=...)
+      if (hash && hash.includes('sso=')) {
+        try {
+          const rawToken = hash.split('sso=')[1].split('&')[0];
+          const decodedJson = decodeURIComponent(escape(atob(rawToken)));
+          const parsed = JSON.parse(decodedJson);
+
+          // Validez de 60 segundos para seguridad
+          if (Date.now() - parsed.t < 60000) {
+            ssoUser = parsed.u;
+            ssoPass = parsed.p;
+          }
+        } catch (e) {
+          console.warn("Token SSO no válido:", e);
+        }
+
+        // Limpiar inmediatamente el hash de la URL sin recargar
+        history.replaceState(null, document.title, window.location.pathname + window.location.search);
+      }
+
+      // 2. Revisar si había una sesión previa en este navegador
+      let sesionGuardada = null;
+      try {
+        const raw = localStorage.getItem('sigep_session');
+        if (raw) sesionGuardada = JSON.parse(raw);
+      } catch (e) {
+        localStorage.removeItem('sigep_session');
+      }
+
+      // CASO A: Viene desde el Portal con nuevas credenciales
+      if (ssoUser && ssoPass) {
+        // Si la sesión anterior pertenecía a otro usuario, se elimina
+        if (sesionGuardada && sesionGuardada.authAccount !== ssoUser.toLowerCase()) {
+          localStorage.removeItem('sigep_session');
+          sesionGuardada = null;
+        }
+
+        // Si coincide con la sesión guardada activa, entrar directo
+        if (sesionGuardada && sesionGuardada.authAccount === ssoUser.toLowerCase()) {
+          usuarioActual = sesionGuardada.user;
+          colaboradores = sesionGuardada.data;
+          configurarInterfazUsuario();
+          document.getElementById('vista-login').classList.add('hidden');
+          document.getElementById('vista-panel').classList.remove('hidden');
+          inicializarSelects();
+          aplicarFiltros();
+          return;
+        }
+
+        // Si es usuario nuevo, rellenar y autenticar automáticamente
+        document.getElementById('login-user').value = ssoUser;
+        document.getElementById('login-pass').value = ssoPass;
+        await ejecutarLogin();
+        return;
+      }
+
+      // CASO B: Acceso directo con sesión guardada válida
+      if (sesionGuardada && sesionGuardada.user) {
+        usuarioActual = sesionGuardada.user;
+        colaboradores = sesionGuardada.data;
+        configurarInterfazUsuario();
+        document.getElementById('vista-login').classList.add('hidden');
+        document.getElementById('vista-panel').classList.remove('hidden');
+        inicializarSelects();
+        aplicarFiltros();
+      }
+    });
+
 
     function inicializarSelects() {
       const locales = [...new Set(colaboradores.map(c => c.empresa).filter(Boolean))];
